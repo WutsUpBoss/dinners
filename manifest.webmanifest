@@ -1,14 +1,23 @@
 {
   "name": "Dinners",
   "short_name": "Dinners",
-  "description": "Build the week's dinners and send the store list.",
+  "description": "Build the week's dinners together and send the store list.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
-  "background_color": "#F5EEDF",
-  "theme_color": "#F5EEDF",
+  "background_color": "#FAF9F6",
+  "theme_color": "#FAF9F6",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }

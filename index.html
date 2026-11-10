@@ -273,6 +273,80 @@ button.dayrow:active{background:var(--lime)}
 .btn.o.link{display:inline-grid}
 .err-page .btn{display:inline-grid;text-decoration:none}
 
+/* title row: the Week gets one outlined pill to the List, the List the same pill back (3.1; the tab bar replaces both in 3.2) */
+.hrow{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.hrow h1{min-width:0;white-space:nowrap}
+.hrow h1.long{font-size:34px}
+.swp{flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;min-width:44px;border:1.5px solid var(--orchil);border-radius:22px;padding:0 18px 0 14px;color:var(--orchil);font:600 17px var(--sans);white-space:nowrap;text-align:center;transition:background-color 90ms}
+.swp:active{background:var(--lime)}
+
+/* the store List (3.1, look A): everything is under .lst so the link list keeps its own look */
+.lst h1{font:300 44px/1 var(--disp);letter-spacing:-.03em;padding:0}
+.lst .trow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px;padding-top:6px}
+.lst .wkof{font:400 16px var(--mono);color:var(--muted);white-space:nowrap}
+.lst .pills{display:flex;gap:8px;margin-top:10px}
+.lst .pills button{height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--hair);color:var(--muted);font:600 16px var(--sans);text-align:center;white-space:nowrap}
+.lst .pills button[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--orchil)}
+.lst .lnote{display:flex;align-items:center;gap:10px;margin-top:14px;background:var(--lime);border-radius:14px;padding:0 14px;min-height:48px;font:400 16px var(--sans);color:var(--bog)}
+.lst .lnote i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);flex:none}
+.lst .hero{display:flex;align-items:baseline;gap:10px;margin-top:16px}
+.lst .hero b{font:300 104px/.85 var(--disp);letter-spacing:-.045em;color:var(--orchil)}
+.lst .hero .of{font:300 38px var(--disp);color:var(--muted);white-space:nowrap;margin-left:6px}
+.lst .hero .lbl{font:400 18px/1.15 var(--sans);margin-left:4px}
+.lst .hero .lbl span{display:block;white-space:nowrap}
+.lst .hero .okd{width:40px;height:40px;border-radius:50%;background:var(--orchil);color:var(--paper);display:grid;place-items:center;align-self:center;margin-left:4px;flex:none}
+.lst .meter{margin-top:18px}
+.lst .dayslbl{font:500 16px var(--sans);color:var(--muted);margin-top:20px}
+.lst .days{display:flex;gap:4px;margin-top:8px}
+.lst .days button{flex:1;position:relative;height:46px;min-width:44px;border-radius:23px;border:1.5px solid var(--hair);color:var(--muted);font:600 17px var(--sans);text-align:center;white-space:nowrap}
+.lst .days .on{background:var(--bog);color:var(--paper);border-color:var(--bog)}
+.lst .days .chgd::after{content:"";position:absolute;right:-2px;top:-3px;width:14px;height:14px;border-radius:50%;background:var(--orchil-l);border:2.5px solid var(--paper);box-sizing:content-box;margin:-2.5px -2.5px 0 0}
+.lst .aisle{margin-top:26px}
+.lst .aisle h2{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--bog);padding-bottom:8px;font:600 24px var(--disp);letter-spacing:-.01em}
+.lst .aisle h2 span{font:400 16px var(--mono);color:var(--muted);white-space:nowrap}
+.lst .it{display:grid;grid-template-columns:48px 1fr auto;align-items:start;gap:0;padding:11px 0 12px;min-height:68px;border-bottom:1px solid var(--hair);width:100%;text-align:left}
+.lst .cb{grid-row:1 / span 2;width:48px;height:46px;border:0;border-radius:0;display:grid;place-items:center;color:var(--paper)}
+.lst .cb i{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(30,26,22,.42);display:grid;place-items:center;font-style:normal}
+.lst .it.got .cb i{background:var(--bog);border-color:var(--bog)}
+.lst .it .n{font:500 21px/1.2 var(--disp);padding:3px 14px 0 0;min-width:0}
+.lst .it.got .n{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.lst .it .q{font:400 16px/1.2 var(--mono);color:var(--muted);white-space:nowrap;text-align:right;padding-top:7px}
+.lst .fr{grid-column:2 / span 2;display:flex;flex-direction:column;gap:3px;margin-top:5px;font-size:16px;line-height:1.25;color:var(--muted)}
+.lst .srow{display:flex;align-items:baseline;gap:9px}
+.lst .srow b{font:500 16px/1.2 var(--mono);color:var(--orchil);background:var(--lime);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.lst .srow .mn{min-width:0;flex:1}
+.lst .srow em{margin-left:auto;font:400 16px/1.2 var(--mono);font-style:normal;color:var(--muted);white-space:nowrap}
+.lst .srow .ck{display:inline-grid;width:auto;height:auto;background:none;border-radius:0;color:var(--orchil);align-self:center}
+.lst .nw{font:600 16px/1.3 var(--sans);color:var(--orchil);border:1.5px solid rgba(91,46,86,.45);border-radius:99px;padding:0 9px;white-space:nowrap;display:inline-block}
+.lst .srow.mr .nw{background:var(--lime);border-color:transparent}
+.lst .bought{margin-top:30px}
+.lst .bought h2{font:600 22px var(--disp);color:var(--orchil);border-bottom:1.5px solid var(--orchil);padding-bottom:8px;letter-spacing:-.01em}
+.lst .bought .it{grid-template-columns:48px 1fr auto 48px}
+.lst .bought .it .n{color:var(--muted)}
+.lst .bought .cb i{background:var(--lime);border-color:rgba(91,46,86,.4);color:var(--orchil)}
+.lst .xb{grid-column:4;grid-row:1 / span 2;width:48px;height:48px;display:grid;place-items:center;color:var(--muted);align-self:start;margin-top:-2px}
+.lst .xb span{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--hair);display:grid;place-items:center}
+.lst .xb:active span{background:var(--lime)}
+.lst .was{white-space:nowrap;color:var(--orchil);font-weight:500}
+.lst .was b{margin:0 3px;background:var(--lime);border-radius:6px;padding:2px 7px;font:500 16px/1.2 var(--mono)}
+.lst .nothing{margin-top:26px}
+.lst .nothing h2{font:300 44px/1.02 var(--disp);letter-spacing:-.03em;text-wrap:balance}
+.lst .nothing p{font-size:18px;color:var(--muted);margin-top:10px}
+.lst .cook{margin-top:40px}
+.lst .cook h2{font-size:38px;padding-bottom:12px;margin:0;border-bottom:1.5px solid var(--bog)}
+.lst .cookwrap{border-top:0}
+.lst .listtop{display:block}
+.lst .foot{display:none}
+.lst{padding-bottom:40px}
+@media(min-width:600px){
+  .lst h1{font-size:52px}
+  .lst .listtop{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;align-items:end}
+  .lst .days-wrap{padding-bottom:4px}
+  .lst .dayslbl{margin-top:0}
+  .lst .it{padding:13px 0 14px}
+  .lst .it .n{font-size:23px}
+}
+
 /* short screens (the iPhone Duo closed, small iPhones, a phone held sideways): the same look, set tighter so more fits above
    the bottom bar. app.js decides and puts .short on <html> (never for a regular iPhone in a Safari tab); type stays 16 px or more. */
 html.short h1{font-size:38px;padding-top:6px}
@@ -293,6 +367,16 @@ html.short .prow.quiet{min-height:48px}
 html.short .panel{height:330px}
 html.short .fan{margin-top:16px}
 html.short .hd{font-size:40px;margin-top:22px}
+html.short .hrow h1.long{font-size:30px}
+html.short .lst h1{font-size:36px}
+html.short .lst .trow{min-height:46px;padding-top:2px}
+html.short .lst .pills{margin-top:6px}
+html.short .lst .hero{margin-top:8px}
+html.short .lst .hero b{font-size:84px}
+html.short .lst .meter{margin-top:12px}
+html.short .lst .dayslbl{margin-top:10px}
+html.short .lst .days{margin-top:6px}
+html.short .lst .aisle{margin-top:20px}
 html.short .tile{height:168px}
 html.short .tile span{font-size:50px}
 
@@ -990,6 +1074,293 @@ function planMove(saved, drafts, me) {
 }
 
 return { SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove };
+})();
+const __v3 = (() => {
+const { buildStoreList, findItem, addDays } = __logic;
+const { toV1Week } = __v2;
+// Version 3.1 "shop by day": pure list logic. No storage, no clock, no dependencies beyond logic.js / v2.js.
+// The page passes in: the shared week (as sync.js week(monday) gives it), the meals library, "today" (YYYY-MM-DD),
+// and this phone's list memory for that week. Every function returns new values and never mutates its inputs.
+
+
+
+const NIGHTS = 7;
+const EPS = 1e-9;
+
+function round(n) { return Math.round(n * 1000) / 1000; }
+function has(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
+function isObj(x) { return x !== null && typeof x === 'object' && !Array.isArray(x); }
+function clone(x) { return JSON.parse(JSON.stringify(x)); }
+function isHome(night) { return !!(night && night.st === 'h' && night.m); }
+function nightAt(week, n) { return week && Array.isArray(week.nights) ? week.nights[n] || null : null; }
+function homeNights(week) {
+  const out = [];
+  for (let n = 0; n < NIGHTS; n++) if (isHome(nightAt(week, n))) out.push(n);
+  return out;
+}
+function sortedUnique(list) { return [...new Set(list)].sort((a, b) => a - b); }
+function validNight(n) { return Number.isInteger(n) && n >= 0 && n < NIGHTS; }
+
+function lineKey(aisle, name, unit) {
+  return `${aisle}|${String(name).trim().toLowerCase()}|${String(unit).trim().toLowerCase()}`;
+}
+
+// What a night's dinner looks like, so a change of dinner can be seen. '' for anything but a home night.
+function sig(night) {
+  return isHome(night) ? `${night.m}|${night.s0 || ''}|${night.s1 || ''}` : '';
+}
+
+// ---------- list memory ----------
+
+function emptyListState() {
+  return { v: 3, chosen: [], known: [], bought: {}, seen: {}, dismissed: {} };
+}
+
+function cleanNights(list) {
+  return Array.isArray(list) ? sortedUnique(list.filter(validNight)) : [];
+}
+
+function normalizeListState(any) {
+  const out = emptyListState();
+  if (!isObj(any) || any.v !== 3) return out; // includes version 1 ticks arrays: dropped
+  out.chosen = cleanNights(any.chosen);
+  out.known = sortedUnique([...cleanNights(any.known), ...out.chosen]);
+  if (isObj(any.bought)) {
+    for (const k of Object.keys(any.bought)) {
+      if (k === '__proto__' || !isObj(any.bought[k])) continue;
+      for (const nk of Object.keys(any.bought[k])) {
+        const n = Number(nk), r = any.bought[k][nk];
+        if (!validNight(n) || String(n) !== nk || !isObj(r)) continue;
+        if (typeof r.amount !== 'number' || !Number.isFinite(r.amount) || r.amount < 0) continue;
+        if (!has(out.bought, k)) out.bought[k] = {};
+        out.bought[k][n] = {
+          amount: r.amount,
+          m: typeof r.m === 'string' ? r.m : '',
+          name: typeof r.name === 'string' ? r.name : '',
+          unit: typeof r.unit === 'string' ? r.unit : '',
+          aisle: typeof r.aisle === 'string' ? r.aisle : '',
+        };
+      }
+    }
+  }
+  if (isObj(any.seen)) {
+    for (const nk of Object.keys(any.seen)) {
+      const n = Number(nk);
+      if (validNight(n) && String(n) === nk && typeof any.seen[nk] === 'string') out.seen[n] = any.seen[nk];
+    }
+  }
+  if (isObj(any.dismissed)) {
+    for (const k of Object.keys(any.dismissed)) {
+      if (k === '__proto__' || !isObj(any.dismissed[k])) continue;
+      for (const nk of Object.keys(any.dismissed[k])) {
+        const n = Number(nk);
+        if (validNight(n) && String(n) === nk && any.dismissed[k][nk] === true) {
+          if (!has(out.dismissed, k)) out.dismissed[k] = {};
+          out.dismissed[k][n] = true;
+        }
+      }
+    }
+  }
+  return out;
+}
+
+// ---------- which nights are on ----------
+
+function mondayOf(iso) {
+  const dow = (new Date(`${iso}T00:00:00Z`).getUTCDay() + 6) % 7;
+  return addDays(iso, -dow);
+}
+
+// First open and later opens follow one rule: a home night not seen before is on when its date is today or later
+// (this week: Wednesday on; a later week: all; an earlier week: none). Nights no longer home leave `chosen`.
+function chooseNights(state, week, todayISO) {
+  const s = normalizeListState(state);
+  const homes = homeNights(week);
+  const chosen = new Set(s.chosen.filter((n) => homes.includes(n)));
+  const known = new Set(s.known);
+  for (const n of homes) {
+    if (known.has(n)) continue;
+    known.add(n);
+    if (addDays(week.monday, n) >= todayISO) chosen.add(n);
+  }
+  s.chosen = sortedUnique([...chosen]);
+  s.known = sortedUnique([...known]);
+  return { state: s, chosen: s.chosen.slice() };
+}
+
+function setChosen(state, week, n, on) {
+  const s = normalizeListState(state);
+  if (!validNight(n) || !isHome(nightAt(week, n))) return s;
+  const set = new Set(s.chosen);
+  if (on) { set.add(n); s.known = sortedUnique([...s.known, n]); } else set.delete(n);
+  s.chosen = sortedUnique([...set]);
+  return s;
+}
+
+// ---------- lines ----------
+
+// What one night's dinner needs: Map lineKey -> { name, unit, aisle, amount }.
+function nightNeeds(night, meals) {
+  const needs = new Map();
+  if (!isHome(night)) return needs;
+  for (const id of [night.m, night.s0, night.s1].filter(Boolean)) {
+    const item = findItem(meals, id);
+    if (!item || !Array.isArray(item.ingredients)) continue;
+    for (const ing of item.ingredients) {
+      const name = String(ing.name).trim(), unit = String(ing.unit).trim();
+      const key = lineKey(ing.aisle, name, unit);
+      let e = needs.get(key);
+      if (!e) { e = { name, unit, aisle: ing.aisle, amount: 0 }; needs.set(key, e); }
+      e.amount = round(e.amount + Number(ing.amount));
+    }
+  }
+  return needs;
+}
+
+function mainName(meals, id) {
+  const it = findItem(meals, id);
+  return it && typeof it.name === 'string' ? it.name : '';
+}
+
+function homeChosen(week, chosen) {
+  return sortedUnique((Array.isArray(chosen) ? chosen : []).filter((n) => validNight(n) && isHome(nightAt(week, n))));
+}
+
+function listLines(week, meals, chosen) {
+  const ns = homeChosen(week, chosen);
+  const v1 = toV1Week(week && typeof week === 'object' ? week : { nights: [] });
+  v1.days = v1.days.map((d, i) => (ns.includes(i) ? d : null));
+  const base = buildStoreList(v1, meals); // same grouping, order, names and amounts as today
+  const perNight = ns.map((n) => ({ n, night: nightAt(week, n), needs: nightNeeds(nightAt(week, n), meals) }));
+  return base.map((g) => ({
+    aisle: g.aisle,
+    items: g.items.map((it) => {
+      const key = lineKey(g.aisle, it.name, it.unit);
+      const sources = [];
+      for (const p of perNight) {
+        const e = p.needs.get(key);
+        if (e) sources.push({ n: p.n, m: p.night.m, mainName: mainName(meals, p.night.m), amount: e.amount });
+      }
+      return { key, name: it.name, unit: it.unit, amount: it.amount, sources };
+    }),
+  }));
+}
+
+// ---------- the screen ----------
+
+function boughtFor(state, key, n) {
+  return has(state.bought, key) && has(state.bought[key], n) ? state.bought[key][n] : null;
+}
+
+function listView(state, week, meals) {
+  const s = normalizeListState(state);
+  const chosen = homeChosen(week, s.chosen);
+  const lines = listLines(week, meals, chosen);
+
+  const changed = chosen.filter((n) => {
+    if (!has(s.seen, n)) return false;
+    const any = Object.keys(s.bought).some((k) => boughtFor(s, k, n));
+    return any && sig(nightAt(week, n)) !== s.seen[n];
+  });
+
+  let got = 0, total = 0;
+  const groups = lines.map((g) => {
+    let gGot = 0;
+    const items = g.items.map((it) => {
+      const sources = it.sources.map((src) => {
+        const b = boughtFor(s, it.key, src.n);
+        return { ...src, bought: b ? b.amount : 0 };
+      });
+      const inCart = sources.every((x) => x.bought >= x.amount - EPS);
+      const someBought = sources.some((x) => x.bought > 0);
+      const more = !inCart && someBought
+        ? round(sources.reduce((t, x) => t + Math.max(0, x.amount - x.bought), 0)) : 0;
+      const isNew = !inCart && sources.some((x) => changed.includes(x.n) && x.bought < x.amount - EPS);
+      if (inCart) gGot++;
+      return { key: it.key, name: it.name, unit: it.unit, amount: it.amount, sources, inCart, more, isNew };
+    });
+    got += gGot; total += items.length;
+    return { aisle: g.aisle, got: gGot, total: items.length, items };
+  });
+
+  const notNeeded = [];
+  for (const k of Object.keys(s.bought)) {
+    for (const nk of Object.keys(s.bought[k])) {
+      const n = Number(nk), r = s.bought[k][nk];
+      if (!(r.amount > 0)) continue;
+      if (has(s.dismissed, k) && s.dismissed[k][n]) continue;
+      if (nightNeeds(nightAt(week, n), meals).has(k)) continue;
+      notNeeded.push({ key: k, name: r.name, unit: r.unit, aisle: r.aisle, amount: r.amount, n, m: r.m, mainName: mainName(meals, r.m) });
+    }
+  }
+  notNeeded.sort((a, b) => a.n - b.n || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+
+  return { groups, got, total, notNeeded, changed, offered: homeNights(week) };
+}
+
+// ---------- ticks ----------
+
+function findLine(week, meals, chosen, key) {
+  for (const g of listLines(week, meals, chosen)) for (const it of g.items) if (it.key === key) return it;
+  return null;
+}
+
+function tickLine(state, week, meals, key) {
+  const s = normalizeListState(state);
+  const line = findLine(week, meals, s.chosen, key);
+  if (!line) return s;
+  const aisle = splitAisle(key);
+  if (!has(s.bought, key)) s.bought[key] = {};
+  for (const src of line.sources) {
+    s.bought[key][src.n] = { amount: src.amount, m: src.m, name: line.name, unit: line.unit, aisle };
+    s.seen[src.n] = sig(nightAt(week, src.n));
+    if (has(s.dismissed, key)) {
+      delete s.dismissed[key][src.n];
+      if (!Object.keys(s.dismissed[key]).length) delete s.dismissed[key];
+    }
+  }
+  return s;
+}
+
+function splitAisle(key) { return key.slice(0, key.indexOf('|')); }
+
+function untickLine(state, week, meals, key) {
+  const s = normalizeListState(state);
+  const line = findLine(week, meals, s.chosen, key);
+  if (!line || !has(s.bought, key)) return s;
+  for (const src of line.sources) delete s.bought[key][src.n];
+  if (!Object.keys(s.bought[key]).length) delete s.bought[key];
+  return s;
+}
+
+function toggleLine(state, week, meals, key) {
+  const view = listView(state, week, meals);
+  for (const g of view.groups) for (const it of g.items) {
+    if (it.key === key) return it.inCart ? untickLine(state, week, meals, key) : tickLine(state, week, meals, key);
+  }
+  return normalizeListState(state);
+}
+
+function ackNight(state, week, n) {
+  const s = normalizeListState(state);
+  if (validNight(n)) s.seen[n] = sig(nightAt(week, n));
+  return s;
+}
+
+function dismissNotNeeded(state, key, n) {
+  const s = normalizeListState(state);
+  if (has(s.bought, key)) {
+    delete s.bought[key][n];
+    if (!Object.keys(s.bought[key]).length) delete s.bought[key];
+  }
+  if (validNight(n) && typeof key === 'string' && key !== '__proto__') {
+    if (!has(s.dismissed, key)) s.dismissed[key] = {};
+    s.dismissed[key][n] = true;
+  }
+  return s;
+}
+
+return { lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded };
 })();
 const __sync = (() => {
 const { SERVER_TIME, isEmptyNight, applyPick, setState, toV1Week, planDeal, dealLabel, availableMeals, prevMains: prevMainsOf, saveMessage, planMove, mulberry32, newOp } = __v2;
@@ -1769,9 +2140,9 @@ const firebaseConfig = {
 
 return { firebaseConfig };
 })();
-const { TZ, DAY_COUNT, isValidISODate, addDays, localDate, thisMonday, comingMonday, daysBetween, emptyWeek, findItem, isEatOut, isAway, setEatOut, canSave, isCelebration, validatePick, dinnerMinutes, buildStoreList, encodeWeek, decodeWeek, weekLink, isMonday, pickCounts, lastHad, SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove, createSync, createFirebaseStore } = { ...__logic, ...__v2, ...__sync, ...__fbstore };
+const { TZ, DAY_COUNT, isValidISODate, addDays, localDate, thisMonday, comingMonday, daysBetween, emptyWeek, findItem, isEatOut, isAway, setEatOut, canSave, isCelebration, validatePick, dinnerMinutes, buildStoreList, encodeWeek, decodeWeek, weekLink, isMonday, pickCounts, lastHad, SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove, lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded, createSync, createFirebaseStore } = { ...__logic, ...__v2, ...__v3, ...__sync, ...__fbstore };
 const FIREBASE_CONFIG = __config.firebaseConfig;
-// Dinners version 2 page (Look 3). Uses the modules inlined before this file (logic, v2, sync, firebase-store and, in
+// Dinners page (version 2 Week in Look 3, plus the version 3.1 store List). Uses the modules inlined before this file (logic, v2, v3, sync, firebase-store and, in
 // fixtures only, the fake store) and MEALS (meals.json). Personal settings (household key, channel, who) live in
 // localStorage on the phone, never in this file.
 (function () {
@@ -1785,6 +2156,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const APPL = { 'thermomix': 'Thermomix', 'ninja-grill': 'Ninja grill', 'oven': 'Oven', 'stovetop': 'Stovetop', 'none': 'No cook' };
 const V1 = 'dinners.v1.';
 const V2 = 'dinners.v2.';
+const V3 = 'dinners.v3.';
 const HISTORY_FROM = '2026-01-01'; // the live check's test week (2000-01-10) is not history
 const SDK_URL = 'https://www.gstatic.com/firebasejs/10.12.2/';
 const SDK_WAIT_MS = 7000;
@@ -1839,6 +2211,10 @@ const IC = {
   alertL: svg(22, '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.2v.2"/>', 1.8),
   back: svg(24, '<path d="M15 5l-7 7 7 7"/>', 1.8),
   text: svg(22, '<path d="M4 5h16v11H9l-5 4z"/>', 1.8),
+  listI: svg(22, '<path d="M4.5 7.5l1.6 1.6 2.9-3.2M4.5 16.5l1.6 1.6 2.9-3.2M12.5 7.5h7M12.5 16.5h7"/>', 1.8),
+  weekI: svg(22, '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', 1.8),
+  x: svg(16, '<path d="M6 6l12 12M18 6L6 18"/>', 2),
+  okd: svg(22, '<path d="M5 12.5l4.5 4.5L19 7.5"/>', 2.4),
   link: svg(22, '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>', 1.8),
 };
 // The rings icon, exactly as Look 3 draws it (screen 5): two rings, Jason ink and Laci plum, on a tilted near-white card
@@ -1856,6 +2232,9 @@ const mem = {};
 if (FX && FX.v1) for (const k of Object.keys(FX.v1)) mem[V1 + k] = JSON.stringify(FX.v1[k]);
 let ls = null;
 if (!FX) { try { ls = window.localStorage; ls.setItem(V2 + 't', '1'); ls.removeItem(V2 + 't'); } catch (e) { ls = null; } }
+// Fixtures keep the phone's storage in memory; the List check (window.__PERSIST) asks for sessionStorage so a reload can be tried.
+if (FX && (FX.persist || window.__PERSIST)) { try { ls = window.sessionStorage; } catch (e) { ls = null; } }
+if (FX && FX.v3) for (const k of Object.keys(FX.v3)) { let have = false; try { have = !!(ls && ls.getItem(V3 + k) !== null); } catch (e) { have = false; } if (!have) mem[V3 + k] = JSON.stringify(FX.v3[k]); } // the List's memory, one key per week
 const kv = {
   get(k, d) {
     let raw = null;
@@ -1865,6 +2244,7 @@ const kv = {
   },
   set(k, v) {
     const raw = JSON.stringify(v);
+    if (FX && FX.failListStorage && k.indexOf(V3 + 'list.') === 0) { mem[k] = raw; return false; } // fixture: the phone refuses the List's memory
     if (ls) { try { ls.setItem(k, raw); delete mem[k]; return true; } catch (e) { /* fall through to memory */ } }
     mem[k] = raw;
     return !ls && !!FX;
@@ -1909,6 +2289,10 @@ const S = {
   rows: [],            // last html per night, so a repaint only touches rows that changed
   freezeUntil: 0,
   list: null,
+  view: FX && FX.view === 'list' ? 'list' : 'week', // inside the household app: the Week (default) or the store List
+  listLost: false,     // the phone refused the List's check marks (shown on the List only)
+  dataIn: false,       // the shared week has arrived (the List chooses nights and keeps its memory only after that)
+  listHTML: null,      // last html of the List, so a repaint that changes nothing touches nothing
 };
 
 let sync = null;
@@ -2025,9 +2409,16 @@ function mountBuilder(app) {
   builderOn = true;
   S.rows = [];
   S.hist = null;
+  S.listHTML = null;
+  if (S.view === 'list') {
+    app.innerHTML = '<div class="lst" id="lst"></div>';
+    S.monday = mondayNow();
+    startSync().then(() => { if (builderOn) { paint(); afterMount(); } });
+    return;
+  }
   app.innerHTML = `<div class="top"><div class="brand">${brandMark()}<span>${esc(APP_NAME)}</span></div><div id="pill"></div></div>
     <div id="warn"></div>
-    <div class="hrow"><h1 id="title"></h1></div><div class="rule"></div>
+    <div class="hrow"><h1 id="title"></h1><button class="swp" data-act="view-list">${IC.listI}List</button></div><div class="rule"></div>
     <div class="wtabs" role="group" aria-label="Week" id="tabs"></div>
     <ol class="week" id="week"></ol>
     <div class="deck" id="deck" hidden><div class="back" style="transform:rotate(-3deg)"></div><div class="back" style="transform:translate(-2px,-2px) rotate(2deg)"></div><div class="back" style="transform:translate(-4px,-4px)"></div></div>
@@ -2044,11 +2435,13 @@ function schedulePaint() {
 function paint() {
   if (!builderOn || !sync) return;
   S.monday = mondayNow();
+  if (S.view === 'list') { paintList(); return; }
   // The open pick sheet always shows the night as it is now, whatever brought the change (a remote or conflict event, the
   // first snapshot after an offline start recovers, a reconnect, any repaint). This phone's own picks update the key first.
   if (S.sheet && S.sheet.kind === 'flow' && S.sheetKey !== undefined && nightKey(curNight(S.sheet.day)) !== S.sheetKey && !S.sheetDirty) S.sheetDirty = {};
   if (S.sheetDirty) refreshOpenSheet();
   const view = sync.week(S.monday);
+  saveSnap(view);
   paintHead(view);
   paintRows(view);
   paintBar(view);
@@ -2058,8 +2451,10 @@ function paint() {
 // thing that clears "Not kept on this phone" (a tiny test write would say nothing about the queue).
 function wrote(r) { if (r && r.kept === true) S.notKept = false; return r; }
 
+// A range across two months ("Nov 30–Dec 6") gets a smaller title so the List pill beside it always fits.
+function setTitle(t) { const el = $('#title'); el.textContent = t; el.classList.toggle('long', t.length > 9); }
 function paintHead(view) {
-  $('#title').textContent = rangeTitle(S.monday);
+  setTitle(rangeTitle(S.monday));
   $('#tabs').innerHTML = `<button data-act="tab" data-which="this" aria-pressed="${S.which === 'this'}">This week</button><button data-act="tab" data-which="coming" aria-pressed="${S.which === 'coming'}">Next week</button>`;
   const me = S.settings.me, them = other(me);
   let pill = '';
@@ -2149,7 +2544,7 @@ function paintRows(view) {
   const homes = view.nights.filter(isHomeN).length;
   const deck = $('#deck');
   deck.hidden = !(S.dealing || (homes === 0 && S.dealtMon !== S.monday && view.nights.every(isEmptyNight)));
-  $('#title').textContent = S.dealing ? 'Dealing' : rangeTitle(S.monday);
+  setTitle(S.dealing ? 'Dealing' : rangeTitle(S.monday));
 }
 
 function paintBar(view) {
@@ -2319,12 +2714,12 @@ function startSync() {
     await sync.start();
     let firstData;
     const first = new Promise((r) => { firstData = r; });
-    store.subscribe('weeks', () => { firstData(); schedulePaint(); });
+    store.subscribe('weeks', () => { firstData(); if (!FX || (FX.noData && window.__dataGo)) S.dataIn = true; schedulePaint(); });
     store.subscribe('presence', () => { S.presence = sync.presence(); schedulePaint(); });
     store.onConnection(onConn);
     if (FX || store.live) await withTimeout(first, FIRST_DATA_MS, null);
     onConn(!!store.online);
-    if (FX) { await runFixture(FX.seed || []); S.flash.clear(); S.refused.clear(); schedulePaint(); }
+    if (FX) { await runFixture(FX.seed || []); S.flash.clear(); S.refused.clear(); if (!FX.noData) S.dataIn = true; schedulePaint(); }
     else if (!realStore) tryUpgrade();
     document.addEventListener('visibilitychange', () => { if (sync && S.online) sync.setPresence(document.visibilityState !== 'hidden'); });
     window.addEventListener('pagehide', () => { if (sync && S.online) sync.setPresence(false); });
@@ -2630,6 +3025,7 @@ function jumpSlot(step) {
 function playLand(nights) {
   if (reduced() || !nights.length) return;
   const ol = $('#week');
+  if (!ol) return;
   nights.forEach((n, i) => {
     const li = ol.children[n]; if (!li) return;
     li.style.setProperty('--i', String(Math.min(i, 3)));
@@ -2815,41 +3211,9 @@ function renderMoment(play) {
     ${actions}${warn}<div id="linkSlot"></div><div class="mdone">${done}</div>`;
 }
 
-// ---------- Jason's list (opens from a week link: no setup, no household, no network) ----------
-function renderList(app, hash) {
-  const dec = decodeWeek(hash);
-  if (!dec.ok) {
-    app.innerHTML = `<div class="err-page"><h1>This link looks <em>damaged</em></h1>
-      <p>It may have been cut off. Ask for the week to be saved again.</p>
-      <a class="btn o" href=".">Open the week builder</a></div>`;
-    return;
-  }
-  const week = dec.week, mon = week.monday;
-  const list = buildStoreList(week, MEALS);
-  const ticks = new Set(kv.get(V1 + 'ticks.' + mon, []));
-  const keyOf = (aisle, l) => `${aisle}|${l.name.toLowerCase()}|${l.unit.toLowerCase()}`;
-  const all = [];
-  list.forEach((g) => g.items.forEach((l) => all.push(keyOf(g.aisle, l))));
-  const total = all.length, got = all.filter((k) => ticks.has(k)).length;
-
-  let h = `<div class="top ltop"><div class="brand">${brandMark()}</div><span class="wk">Week of ${shortDate(mon)}</span></div><h1 class="lh1">Store <em>list</em></h1>`;
-  if (!total) {
-    h += '<p class="sub">Nothing to buy yet.</p>';
-  } else {
-    h += `<div class="bigcount" aria-live="polite"><div class="bn"><b>${got}</b><span class="of">of ${total}</span></div><div class="lbl">in the<br>cart</div></div>
-      <div class="meter"><i style="width:${total ? Math.round(got / total * 100) : 0}%"></i></div>`;
-  }
-  list.forEach((g) => {
-    const gGot = g.items.filter((l) => ticks.has(keyOf(g.aisle, l))).length;
-    h += `<div class="aisle"><h2>${esc(g.aisle)}<span>${gGot} of ${g.items.length}</span></h2>`;
-    g.items.forEach((l) => {
-      const k = keyOf(g.aisle, l), done = ticks.has(k);
-      h += `<button class="it${done ? ' done' : ''}" data-act="tick" data-key="${esc(k)}" role="checkbox" aria-checked="${done}"><span class="cb">${done ? IC.check : ''}</span><span class="nm">${esc(l.name)}</span><span class="qty">${esc(fmtQty(l))}</span></button>`;
-    });
-    h += '</div>';
-  });
-
-  h += '<section class="cook"><h2>Day by day</h2><div class="cookwrap">';
+// The "Day by day" cook steps: one code for the link list and the store List. week is a version 1 week { monday, days }.
+function dayByDay(week, mon) {
+  let h = '<section class="cook"><h2>Day by day</h2><div class="cookwrap">';
   week.days.forEach((day, i) => {
     if (isEatOut(day)) {
       h += `<div class="dayrow out"><span class="dd">${DAYS[i]}</span><span class="mid"><span class="a eo">${IC.eat}Eating out</span></span><span></span></div>`;
@@ -2887,7 +3251,44 @@ function renderList(app, hash) {
     });
     h += '</div>';
   });
-  h += `</div></section><div class="foot"><a href=".">Open the week builder</a>${FX ? '<div class="sample">Sample data · assumed</div>' : ''}</div>`;
+  return h + '</div></section>';
+}
+
+// ---------- Jason's list (opens from a week link: no setup, no household, no network) ----------
+function renderList(app, hash) {
+  const dec = decodeWeek(hash);
+  if (!dec.ok) {
+    app.innerHTML = `<div class="err-page"><h1>This link looks <em>damaged</em></h1>
+      <p>It may have been cut off. Ask for the week to be saved again.</p>
+      <a class="btn o" href=".">Open the week builder</a></div>`;
+    return;
+  }
+  const week = dec.week, mon = week.monday;
+  const list = buildStoreList(week, MEALS);
+  const ticks = new Set(kv.get(V1 + 'ticks.' + mon, []));
+  const keyOf = (aisle, l) => `${aisle}|${l.name.toLowerCase()}|${l.unit.toLowerCase()}`;
+  const all = [];
+  list.forEach((g) => g.items.forEach((l) => all.push(keyOf(g.aisle, l))));
+  const total = all.length, got = all.filter((k) => ticks.has(k)).length;
+
+  let h = `<div class="top ltop"><div class="brand">${brandMark()}</div><span class="wk">Week of ${shortDate(mon)}</span></div><h1 class="lh1">Store <em>list</em></h1>`;
+  if (!total) {
+    h += '<p class="sub">Nothing to buy yet.</p>';
+  } else {
+    h += `<div class="bigcount" aria-live="polite"><div class="bn"><b>${got}</b><span class="of">of ${total}</span></div><div class="lbl">in the<br>cart</div></div>
+      <div class="meter"><i style="width:${total ? Math.round(got / total * 100) : 0}%"></i></div>`;
+  }
+  list.forEach((g) => {
+    const gGot = g.items.filter((l) => ticks.has(keyOf(g.aisle, l))).length;
+    h += `<div class="aisle"><h2>${esc(g.aisle)}<span>${gGot} of ${g.items.length}</span></h2>`;
+    g.items.forEach((l) => {
+      const k = keyOf(g.aisle, l), done = ticks.has(k);
+      h += `<button class="it${done ? ' done' : ''}" data-act="tick" data-key="${esc(k)}" role="checkbox" aria-checked="${done}"><span class="cb">${done ? IC.check : ''}</span><span class="nm">${esc(l.name)}</span><span class="qty">${esc(fmtQty(l))}</span></button>`;
+    });
+    h += '</div>';
+  });
+
+  h += dayByDay(week, mon) + `<div class="foot"><a href=".">Open the week builder</a>${FX ? '<div class="sample">Sample data · assumed</div>' : ''}</div>`;
   app.innerHTML = h;
   S.list = { mon, ticks, hash };
 }
@@ -2898,6 +3299,119 @@ function tick(key) {
   const y = window.scrollY;
   renderList($('#app'), j.hash);
   window.scrollTo(0, y);
+}
+
+// ---------- the store List inside the household app (release 3.1 "shop by day") ----------
+// Every paint reads the shared week as this phone shows it, this phone's list memory for that week (one key per week) and
+// asks js/v3.js what to show. Nothing here decides what is on the list.
+const listKey = (mon) => V3 + 'list.' + mon;
+const snapKey = (mon) => V3 + 'snap.' + mon;
+const snapOf = (week) => JSON.stringify(Array.from({ length: 7 }, (_, n) => {
+  const x = week.nights[n];
+  return x && x.st ? (x.st === 'h' ? { st: 'h', m: x.m || null, s0: x.s0 || null, s1: x.s1 || null } : { st: x.st }) : null;
+}));
+// The phone remembers the last week it saw (only st, m, s0, s1 per night), so a start with no signal still knows the dinners.
+function saveSnap(view) {
+  if (!S.dataIn) return;
+  const nights = snapOf(view);
+  const old = kv.get(snapKey(view.monday), null);
+  if (old && JSON.stringify(old.nights) === nights) return;
+  kv.set(snapKey(view.monday), { v: 1, nights: JSON.parse(nights) }); // a failed write here shows nothing
+}
+// The week the List works from: the live week once shared data is in; before that the remembered week with this phone's
+// unsent nights laid over it (a night sync.week returns wins).
+function listWeek() {
+  const live = sync.week(S.monday);
+  if (S.dataIn) { saveSnap(live); return live; }
+  const snap = kv.get(snapKey(S.monday), null);
+  const old = snap && Array.isArray(snap.nights) ? snap.nights : [];
+  const nights = Array.from({ length: 7 }, (_, n) => live.nights[n] || (old[n] && old[n].st ? old[n] : null));
+  return { ...live, nights };
+}
+function saveList(state) {
+  S.listLost = !kv.set(listKey(S.monday), state);
+}
+function listData() {
+  const week = listWeek();
+  const raw = kv.get(listKey(S.monday), null);
+  const before = JSON.stringify(normalizeListState(raw));
+  const state = chooseNights(raw, week, todayISO()).state; // always, so a first open with no signal still turns on the nights it knows
+  // Before the shared week is in, an early paint never writes: only the person's own tick, chip or dismiss does (listChange).
+  if (S.dataIn && JSON.stringify(state) !== before) saveList(state); // written back only when it changed
+  return { week, state, view: listView(state, week, MEALS) };
+}
+function listChange(fn) {
+  if (!sync || S.view !== 'list') return;
+  const d = listData();
+  let next = fn(d);
+  // Before the shared week is in, the person's tap is saved without forgetting the nights this phone cannot see yet.
+  if (!S.dataIn) {
+    const unseen = normalizeListState(kv.get(listKey(S.monday), null)).chosen.filter((n) => !isHomeN(d.week.nights[n]));
+    if (unseen.length) next = { ...next, chosen: [...new Set([...next.chosen, ...unseen])].sort((x, y) => x - y) };
+  }
+  saveList(next);
+  paintList();
+}
+const qtyOf = (it, amount) => fmtQty({ unit: it.unit, amount });
+function sourceRow(it, src, multi, changed) {
+  const fresh = changed.includes(src.n) && src.bought < src.amount - 1e-9;
+  const done = it.more > 0 && src.bought >= src.amount - 1e-9;
+  return `<span class="srow"><b>${DAYS[src.n]}</b>${done ? `<span class="ck">${IC.check}</span>` : ''}<span class="mn">${esc(src.mainName ? dispName({ name: src.mainName }) : 'A retired item')}</span>${fresh ? '<span class="nw">New</span>' : ''}${multi ? `<em>${esc(qtyOf(it, src.amount))}</em>` : ''}</span>`;
+}
+function lineHTML(it, changed) {
+  const multi = it.sources.length > 1;
+  const more = it.more > 0 ? `<span class="srow mr"><span class="nw">${esc(qtyOf(it, it.more))} more</span></span>` : '';
+  return `<li><button class="it${it.inCart ? ' got' : ''}" role="checkbox" aria-checked="${it.inCart}" data-act="line" data-key="${esc(it.key)}"><span class="cb"><i>${it.inCart ? IC.check : ''}</i></span><span class="n">${esc(it.name)}</span><span class="q">${esc(fmtQty(it))}</span><span class="fr">${more}${it.sources.map((x) => sourceRow(it, x, multi, changed)).join('')}</span></button></li>`;
+}
+function boughtHTML(view) {
+  if (!view.notNeeded.length) return '';
+  return `<div class="bought"><h2>Bought, not needed now</h2><ul>${view.notNeeded.map((b) => `<li class="it nn"><span class="cb"><i>${IC.check}</i></span><span class="n">${esc(b.name)}</span><span class="q">${esc(qtyOf(b, b.amount))}</span>${S.dataIn ? `<button class="xb" data-act="dismiss" data-key="${esc(b.key)}" data-n="${b.n}" aria-label="Dismiss ${esc(b.name)}"><span>${IC.x}</span></button>` : ''}<span class="fr"><span class="srow"><span class="was">Was <b>${DAYS[b.n]}</b></span><span class="mn">${esc(b.mainName ? dispName({ name: b.mainName }) : 'A retired item')}</span></span></span></li>`).join('')}</ul></div>`;
+}
+function storeListHTML(d) {
+  const { week, state, view } = d;
+  const chosen = state.chosen;
+  const right = S.online ? `<div class="wkof">Week of ${shortDate(S.monday)}</div>` : '<div class="here off"><span class="dot hollow"></span>Offline</div>';
+  let h = `<div class="top"><div class="brand">${brandMark()}<span>${esc(APP_NAME)}</span></div>${right}</div>`;
+  h += S.notKept ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Save and send before you close this.</span></div></div>` : '';
+  h += S.listLost ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Your check marks will be gone when you close this.</span></div></div>` : '';
+  h += `<div class="trow"><h1>Store list</h1><button class="swp" data-act="view-week">${IC.weekI}Week</button></div>`;
+  h += `<div class="pills" role="group" aria-label="Week"><button data-act="tab" data-which="this" aria-pressed="${S.which === 'this'}">This week</button><button data-act="tab" data-which="coming" aria-pressed="${S.which === 'coming'}">Next week</button></div>`;
+  if (!S.online || !S.dataIn) h += '<div class="lnote" role="status"><i></i>Showing what this phone has.</div>';
+  const chips = view.offered.length ? `<p class="dayslbl">Shopping for</p><div class="days" role="group" aria-label="Shopping for">${view.offered.map((n) => {
+    const on = chosen.includes(n), ch = view.changed.includes(n);
+    return `<button class="chip${on ? ' on' : ''}${ch ? ' chgd' : ''}" data-act="chip" data-n="${n}" aria-pressed="${on}"${ch ? ` aria-label="${DAYS_FULL[n]}, changed"` : ''}>${DAYS[n]}</button>`;
+  }).join('')}</div>` : '';
+  if (!view.total) {
+    h += `<div class="listtop"><div class="nothing"><h2>Nothing to buy yet</h2><p>${view.offered.length ? 'Choose a night.' : 'No home dinners this week.'}</p></div><div class="days-wrap">${chips}</div></div>`;
+  } else {
+    const all = view.got === view.total;
+    h += `<div class="listtop"><div><div class="hero" aria-live="polite"><b>${view.got}</b><span class="of">of ${view.total}</span>${all ? `<span class="okd">${IC.okd}</span>` : ''}<span class="lbl">${all ? '<span>all in</span><span>the cart</span>' : '<span>in the</span><span>cart</span>'}</span></div>
+      <div class="meter"><i style="width:${Math.round(view.got / view.total * 100)}%"></i></div></div><div class="days-wrap">${chips}</div></div>`;
+    h += view.groups.map((g) => `<div class="aisle"><h2>${esc(g.aisle)}<span>${g.got} of ${g.total}</span></h2><ul>${g.items.map((it) => lineHTML(it, view.changed)).join('')}</ul></div>`).join('');
+  }
+  h += boughtHTML(view);
+  if (chosen.length) {
+    const v1 = toV1Week(week);
+    h += dayByDay({ v: 1, monday: S.monday, days: v1.days.map((day, i) => (chosen.includes(i) ? day : null)) }, S.monday);
+  }
+  return h;
+}
+function paintList() {
+  const root = $('#lst');
+  if (!root || !sync) return;
+  const html = storeListHTML(listData());
+  if (html === S.listHTML) return;
+  const y = window.scrollY;
+  S.listHTML = html;
+  root.innerHTML = html;
+  window.scrollTo(0, y); // a change from the other phone never moves what is on screen
+}
+function setView(v) {
+  if (S.view === v || !builderOn) return;
+  closeAll(true);
+  S.view = v;
+  mountBuilder($('#app'));
+  window.scrollTo(0, 0);
 }
 
 // ---------- fixtures (made-up data, fixed clock; never in the published page) ----------
@@ -2935,7 +3449,7 @@ async function runFixture(steps) {
 async function afterMount() {
   if (window.__fxRan || !FX) return;
   window.__fxRan = true;
-  window.__fx = { S, sync, store, server: fxServer, other: () => otherPhone, paint, onEvent };
+  window.__fx = { S, kv, sync, store, server: fxServer, other: () => otherPhone, paint, onEvent };
   for (const s of FX.after || []) {
     if (s.wait) await sleep(s.wait);
     else if (s.ui === 'menu') openMenu(s.n);
@@ -2946,6 +3460,7 @@ async function afterMount() {
     else if (s.event) onEvent(s.event);
     else if (s.late) { await runFixture([s.late]); schedulePaint(); }
     else if (s.click) { const e = $(s.click); if (e) e.click(); }
+    else if (s.scroll) { const e = $(s.scroll); if (e) e.scrollIntoView({ block: 'start' }); }
   }
 }
 
@@ -2968,7 +3483,7 @@ document.addEventListener('click', (e) => {
     if (performance.now() < S.openUntil) return;
   } else if (sheetOpen() || S.menu !== null || S.moment) return;
   switch (act) {
-    case 'tab': S.which = el.dataset.which; S.hist = null; S.rows = []; S.dealtMon = null; S.dealOps = {}; paint(); window.scrollTo(0, 0); break;
+    case 'tab': S.which = el.dataset.which; S.hist = null; S.rows = []; S.dealtMon = null; S.dealOps = {}; S.listHTML = null; paint(); window.scrollTo(0, 0); break;
     case 'night': openMenu(Number(el.dataset.day)); break;
     case 'menu-close': closeMenu(); break;
     case 'menu-home': { const n = S.menu; closeMenu(true); openFlow(n, firstStep(n)); break; }
@@ -3002,7 +3517,16 @@ document.addEventListener('click', (e) => {
     case 'code-go': codeGo(); break;
     case 'who': pickWho(el.dataset.who); break;
     case 'tick': tick(el.dataset.key); break;
-    case 'toggleday': { const d = Number(el.dataset.day); S.openDay = S.openDay === d ? null : d; const y = window.scrollY; renderList($('#app'), S.list.hash); window.scrollTo(0, y); break; }
+    case 'toggleday': {
+      const d = Number(el.dataset.day); S.openDay = S.openDay === d ? null : d;
+      if (builderOn) { paintList(); break; }
+      const y = window.scrollY; renderList($('#app'), S.list.hash); window.scrollTo(0, y); break;
+    }
+    case 'view-list': setView('list'); break;
+    case 'view-week': setView('week'); break;
+    case 'line': listChange(({ state, week }) => toggleLine(state, week, MEALS, el.dataset.key)); break;
+    case 'chip': listChange(({ state, week, view }) => { const n = Number(el.dataset.n); return view.changed.includes(n) ? ackNight(state, week, n) : setChosen(state, week, n, !state.chosen.includes(n)); }); break;
+    case 'dismiss': if (!S.dataIn) break; listChange(({ state }) => dismissNotNeeded(state, el.dataset.key, Number(el.dataset.n))); break;
     default: break;
   }
 });

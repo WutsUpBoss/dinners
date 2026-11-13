@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF9F6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cart test">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Dinners cart test</title>
+<style>
+  :root { --ink: #1f1a1c; --plum: #5b2a4f; --paper: #FAF9F6; --line: #e3ddd6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 -apple-system, system-ui, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: calc(24px + env(safe-area-inset-top)) 16px 48px; }
+  h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+  p { margin: 12px 0; }
+  .go { display: block; width: 100%; text-align: center; font: inherit; font-size: 18px; min-height: 52px; padding: 13px 18px; border-radius: 12px; border: 1px solid var(--plum); background: var(--plum); color: #fff; text-decoration: none; margin: 12px 0; }
+  .go.quiet { background: transparent; color: var(--plum); }
+  .note { color: #6b6266; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Dinners cart test</h1>
+  <p><b>Open this from its Home Screen icon.</b> In a browser tab the test does not count.</p>
+  <p>Before each try, take Great Value Black Beans and Taco Seasoning out of your Walmart cart. Nothing is bought.</p>
+  <a class="go" target="_blank" rel="noopener noreferrer" href="https://affil.walmart.com/cart/addToCart?items=10534038|2,707655866">1 · Test link</a>
+  <p class="note">Then look at your Walmart cart. It should show 2 Black Beans and 1 Taco Seasoning. Tell Argo where the link opened and what the cart shows.</p>
+  <p class="note">Only if 1 did not work:</p>
+  <a class="go quiet" href="googlechromes://affil.walmart.com/cart/addToCart?items=10534038|2,707655866">2 · Open in Chrome</a>
+  <button class="go quiet" id="copy" type="button">3 · Copy link</button>
+  <p id="msg" class="note" role="status"></p>
+</main>
+<script>
+(function () {
+  var link = 'https://affil.walmart.com/cart/addToCart?items=10534038|2,707655866';
+  var msg = document.getElementById('msg');
+  document.getElementById('copy').addEventListener('click', function () {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) { msg.textContent = 'Could not copy.'; return; }
+    navigator.clipboard.writeText(link).then(
+      function () { msg.textContent = 'Copied. Paste it in Chrome.'; },
+      function () { msg.textContent = 'Could not copy.'; });
+  });
+})();
+</script>
+</body>
+</html>

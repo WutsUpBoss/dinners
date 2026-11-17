@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:wght@400..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Dinners version 2, Look 3: near-white page, ink and plum, light Bricolage type, hairlines. Nothing under 16px.
+/* Dinners version 3, look A ("The Hand"): near-white page, ink and plum, light Bricolage type, hairlines. Nothing under 16px.
    Every animation is 600 ms or less including its delay, none loops, and none runs under Reduce Motion. */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -24,8 +24,11 @@
   --disp:'Bricolage Grotesque',system-ui,-apple-system,'Helvetica Neue',sans-serif;
   --sans:'Instrument Sans',system-ui,-apple-system,'Helvetica Neue',sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-  --ease:cubic-bezier(.22,.8,.24,1);
+  --ease:cubic-bezier(.22,.8,.24,1); --pad:20px; --dock:72px;
 }
+@media(min-width:440px){:root{--pad:24px}}
+@media(min-width:600px){:root{--pad:32px}}
+html.short{--dock:64px}
 html{background:var(--lime);-webkit-text-size-adjust:100%}
 html.locked,html.locked body{height:100%;overflow:hidden}
 body{font:400 16px/1.4 var(--sans);color:var(--bog);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
@@ -54,132 +57,240 @@ h1 em{color:var(--orchil)}
 .rule{margin:14px 0 0;border-top:3px double var(--bog)}
 .sub{font-size:18px;color:var(--muted);margin-top:8px}
 
+/* the app shell with the tab bar: page column of 640 px, padding that grows with the screen, room for the dock */
+.app.docked{padding-left:max(var(--pad),env(safe-area-inset-left));padding-right:max(var(--pad),env(safe-area-inset-right));padding-bottom:calc(var(--dock) + 28px + env(safe-area-inset-bottom))}
+.docked .top{height:56px;min-height:56px}
+.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:640px;z-index:5;background:var(--paper);border-top:1px solid var(--hair);box-shadow:0 -12px 24px -20px rgba(30,26,22,.35)}
+.tabs{display:flex;padding:6px 8px max(8px,env(safe-area-inset-bottom))}
+.tab{flex:1;height:58px;display:grid;justify-items:center;align-content:center;gap:3px;color:var(--muted);font:500 16px/1 var(--sans);text-align:center;white-space:nowrap}
+.tab .p{width:56px;height:30px;border-radius:15px;display:grid;place-items:center}
+.tab[aria-current]{color:var(--orchil);font-weight:600}
+.tab[aria-current] .p{background:var(--lime)}
+.tab:active .p{background:var(--lime)}
+
 /* week */
-.wtabs{display:flex;gap:8px;margin:12px 0 2px}
-.wtabs button{min-height:44px;padding:0 16px;border-radius:22px;font:600 16px var(--sans);color:var(--muted);border:1.5px solid var(--hair)}
-.wtabs button[aria-pressed="true"]{color:var(--orchil);border-color:var(--orchil)}
-.week{margin:0;padding-bottom:132px}
-.week li{position:relative;display:grid;grid-template-columns:1fr 44px;align-items:center;border-bottom:1px solid var(--hair);min-height:64px}
-.night{display:grid;grid-template-columns:54px 1fr;align-items:center;width:100%;padding:11px 0;min-height:64px;transition:background-color 90ms}
+.trow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px}
+.trow h1{padding:0;min-width:0;white-space:nowrap;font-size:44px}
+.trow h1.long{font-size:30px}
+.save{flex:none;height:48px;min-width:96px;padding:0 24px;border-radius:24px;background:var(--bog);color:var(--paper);font:600 18px var(--sans);display:inline-flex;gap:8px;align-items:center;justify-content:center;text-align:center;white-space:nowrap;transition:opacity 150ms}
+.save.pl{background:var(--orchil);color:var(--paper);padding:0 20px;font-size:17px}
+.save.ok{background:none;border:1.5px solid var(--hair);color:var(--bog)}
+.save.dis{opacity:.4}
+.save:active:not(.dis){opacity:.8}
+.prow2{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.pills{display:flex;gap:8px}
+.pills button{height:44px;min-width:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--hair);color:var(--muted);font:600 16px var(--sans);text-align:center;white-space:nowrap}
+.pills button[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--orchil)}
+.cn{display:flex;align-items:baseline;gap:7px;white-space:nowrap}
+.cn b{font:300 34px/1 var(--disp);letter-spacing:-.03em;color:var(--orchil)}
+.cn span{font:400 16px var(--mono);color:var(--muted)}
+.wl{margin:10px 0 0;border-top:1.5px solid var(--bog)}
+.wl li{position:relative;display:grid;grid-template-columns:1fr 48px;align-items:center;border-bottom:1px solid var(--hair);min-height:64px}
+.night{display:grid;grid-template-columns:62px 1fr;align-items:center;width:100%;padding:8px 0;min-height:64px;transition:background-color 90ms}
 .night:active{background:var(--lime)}
-.day{display:flex;flex-direction:column;font:600 17px/1.1 var(--disp)}
-.day i{font:400 16px var(--mono);font-style:normal;color:var(--muted);margin-top:2px}
-.body{display:block;min-width:0}
-.nm{display:block;font:500 21px/1.15 var(--disp);letter-spacing:-.01em}
-.sd{display:block;font-size:16px;line-height:1.3;color:var(--muted);margin-top:3px}
-.sd.add{color:var(--orchil)}
-.sd.long{color:var(--orchil);font-weight:500}
+.dc{display:flex;flex-direction:column;align-items:center;justify-content:center;width:48px;height:52px;border-radius:14px;color:var(--bog)}
+.dc b{font:600 17px/1.1 var(--disp)}
+.dc i{font:400 16px/1.1 var(--mono);font-style:normal;color:var(--muted);margin-top:2px}
+.wl li.next .dc{background:var(--bog);color:var(--paper)}
+.wl li.next .dc i{color:var(--lime)}
+.wb{display:block;min-width:0}
+.wn{display:block;font:500 21px/1.15 var(--disp);letter-spacing:-.01em}
+.wl li.next .wn{color:var(--orchil);font-weight:600}
+.ws{display:block;font-size:16px;line-height:1.3;color:var(--muted);margin-top:3px}
+.ws.add{color:var(--orchil)}
+.ws.long{color:var(--orchil);font-weight:500}
 .new{font:600 16px var(--sans);color:var(--orchil);background:var(--lime);border-radius:99px;padding:0 9px;margin-left:6px;vertical-align:1px;white-space:nowrap}
-.end{display:flex;justify-content:flex-end;align-items:center}
-.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 16px var(--sans);font-style:normal;flex:none}
+.wend{display:flex;justify-content:flex-end;align-items:center}
+.av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:600 16px var(--sans);font-style:normal;flex:none}
 .av.j{background:var(--bog);color:var(--paper)}
 .av.l{background:var(--orchil);color:#fff}
 .av.pend{background:var(--paper);color:var(--bog);border:2px dashed var(--bog)}
-.week li.next::before{content:"";position:absolute;left:-20px;top:10px;bottom:10px;width:4px;border-radius:0 3px 3px 0;background:var(--orchil)}
-.week li.next .nm{font-size:22px;font-weight:600;color:var(--orchil)}
-.week li.next .day{color:var(--orchil)}
-.week li.soft{background:linear-gradient(90deg,var(--lime),rgba(237,232,222,.35));margin:0 -20px;padding:0 20px;grid-template-columns:1fr 50px}
-.soft .nm{color:var(--muted);display:flex;align-items:center;gap:9px}
-.soft .nm svg{flex:none}
-.plus{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--orchil);display:grid;place-items:center;color:var(--orchil)}
+.wl li.soft{background:linear-gradient(90deg,var(--lime),rgba(237,232,222,.3));margin:0 calc(var(--pad) * -1);padding:0 var(--pad);grid-template-columns:1fr 54px}
+.soft .wn{color:var(--muted);display:flex;align-items:center;gap:10px}
+.soft .wn svg{flex:none}
+.plus{display:flex;align-items:center;gap:10px;color:var(--muted);font:500 17px var(--sans);white-space:nowrap}
+.plus i{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--orchil);display:grid;place-items:center;color:var(--orchil);flex:none}
 .wait{display:block;width:100%;height:32px;border-radius:6px;border:1.5px dashed rgba(30,26,22,.22)}
-.swapbtn{width:44px;height:44px;display:grid;place-items:center}
-.swap{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--hair);display:grid;place-items:center;color:var(--orchil);background:var(--paper)}
+.swapbtn{width:48px;height:48px;display:grid;place-items:center}
+.swap{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(91,46,86,.45);display:grid;place-items:center;color:var(--orchil);background:var(--paper)}
 .swapbtn:active .swap{background:var(--orchil);color:var(--paper);border-color:var(--orchil)}
-.note{display:flex;gap:7px;align-items:center;color:var(--orchil);font:500 16px/1.25 var(--sans);margin-top:5px}
+.note{grid-column:1 / -1;display:flex;gap:7px;align-items:center;color:var(--orchil);font:500 16px/1.25 var(--sans);padding:0 0 6px 62px;white-space:nowrap}
 .note svg{flex:none}
 .week li.flash{background:rgba(148,75,140,.16)}
-.deck{position:absolute;right:20px;top:108px;width:44px;height:60px}
-.deck .back{position:absolute;inset:0}
+.rest{display:flex;align-items:center;gap:10px;min-height:56px;width:100%;color:var(--orchil);font:600 17px var(--sans);border-bottom:1px solid var(--hair);white-space:nowrap}
+.rest .dk{width:62px;display:grid;place-items:center;flex:none}
+.rest.dis{color:var(--muted)}
 .back{background:radial-gradient(circle at 50% 50%,transparent 0 9px,var(--orchil) 9px 10.5px,transparent 10.5px 15px,var(--orchil-l) 15px 16px,transparent 16px),var(--lime);border:1.5px solid var(--orchil);border-radius:8px;box-shadow:inset 0 0 0 3px var(--lime),inset 0 0 0 4px rgba(91,46,86,.35),0 8px 18px -8px rgba(30,26,22,.45)}
-.flipback{position:absolute;left:54px;right:0;top:5px;bottom:5px;opacity:0;z-index:3;pointer-events:none}
+.flipback{position:absolute;left:62px;right:0;top:5px;bottom:5px;opacity:0;z-index:3;pointer-events:none}
 
-/* bottom bar */
-.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:640px;z-index:6;background:var(--paper);border-top:1px solid var(--hair);display:flex;align-items:center;gap:10px;padding:14px max(20px,env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));min-height:86px}
-.cnt{font:600 20px/1 var(--disp);flex:1;white-space:nowrap;color:var(--bog)}
-.cnt small{font:400 16px var(--sans);color:var(--muted);display:block;margin-top:5px}
+/* buttons */
 .btn{height:46px;border-radius:23px;padding:0 20px;display:inline-grid;place-items:center;font:600 17px var(--sans);white-space:nowrap;text-align:center;transition:opacity 150ms}
 .btn.o{border:1.5px solid var(--orchil);color:var(--orchil)}
 .btn.f{background:var(--bog);color:var(--paper)}
-.btn.p{background:var(--orchil);color:#fff}
+.btn.p{background:var(--orchil);color:var(--paper)}
 .btn.wide{flex:1}
 .btn.dis{opacity:.4}
 .btn.dis{padding:0 14px;font-size:16px}
 .btn:active:not(.dis){opacity:.8}
 .btn.big{height:56px;border-radius:28px;font-size:18px}
 
-/* scrim, night menu and the pick sheet */
+/* the deal-three screen */
+.backl{display:inline-flex;align-items:center;gap:2px;min-height:44px;margin-left:-8px;padding:0 12px 0 4px;color:var(--orchil);font:600 18px var(--sans);white-space:nowrap}
+.hrow2 h1{padding-top:6px}
+.hint{font-size:18px;color:var(--muted);margin-top:8px;white-space:nowrap}
+.deal{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.tk{display:grid;grid-template-columns:78px 1fr;width:100%;position:relative;overflow:hidden;background:#fff;border:1px solid var(--hair);border-radius:22px;min-height:132px;box-shadow:0 16px 28px -22px rgba(30,26,22,.6),0 1px 2px rgba(30,26,22,.05);transition:transform 220ms var(--ease),background-color 220ms,opacity 220ms}
+.idx{display:flex;flex-direction:column;justify-content:center;align-items:center;border-right:1.5px dashed rgba(91,46,86,.38);background:linear-gradient(180deg,rgba(237,232,222,.75),rgba(237,232,222,.3));position:relative}
+.idx::before,.idx::after{content:"";position:absolute;right:-10px;width:18px;height:18px;border-radius:50%;background:var(--paper);border:1px solid var(--hair)}
+.idx::before{top:-10px}.idx::after{bottom:-10px}
+.idx b{font:300 44px/.95 var(--disp);color:var(--orchil);letter-spacing:-.035em}
+.idx i{font:400 16px/1 var(--mono);font-style:normal;color:var(--muted);margin-top:6px}
+.bd{display:flex;flex-direction:column;justify-content:center;padding:14px 16px 14px 18px;min-width:0}
+.why{display:flex;align-items:center;gap:9px;font:500 16px/1.2 var(--sans);color:var(--orchil);white-space:nowrap}
+.why svg{flex:none}
+.tk .nm{font:500 23px/1.1 var(--disp);letter-spacing:-.015em;margin-top:9px}
+.sd{margin-top:7px;font-size:16px;line-height:1.35;color:var(--muted);display:flex;flex-direction:column}
+.tk.pick{background:var(--orchil);border-color:var(--orchil);transform:translateY(-3px);box-shadow:0 24px 32px -18px rgba(91,46,86,.75)}
+.tk.pick .idx{background:rgba(250,249,246,.08);border-right-color:rgba(237,232,222,.5)}
+.tk.pick .idx b,.tk.pick .nm{color:var(--paper)}
+.tk.pick .idx i,.tk.pick .sd,.tk.pick .why{color:var(--lime)}
+.tk.pick .why svg *{stroke:var(--lime)}
+.tk.pick .okb{display:grid}
+.tk.dim{opacity:.4}
+.okb{display:none;position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--paper);color:var(--orchil);place-items:center}
+.qa{margin-top:16px;display:flex;flex-direction:column;gap:6px}
+.qa .btn{align-self:stretch;display:flex;gap:10px;align-items:center;justify-content:center;height:52px;border-radius:26px;font-size:17px}
+.qa .btn.p{height:56px;border-radius:28px;font-size:18px}
+.ql{display:flex;justify-content:space-between;gap:4px}
+.ql button{min-height:48px;min-width:44px;display:grid;place-items:center;padding:0 10px;color:var(--muted);font:500 17px var(--sans);white-space:nowrap;text-align:center}
+.ql.two{justify-content:center;gap:28px}
+.dset{margin-top:20px;display:flex;align-items:center;gap:12px;background:var(--lime);border-radius:20px;padding:12px 8px 12px 16px;min-height:64px}
+.dset .t{flex:1;min-width:0}
+.dset b{display:block;font:600 19px/1.15 var(--disp)}
+.dset span{display:block;color:var(--muted);font-size:16px}
+.dset button{color:var(--orchil);font:600 17px var(--sans);min-height:48px;min-width:48px;display:grid;place-items:center;padding:0 14px}
+.dset .ck{display:grid;width:32px;height:32px;border-radius:50%;background:var(--orchil);color:var(--paper);place-items:center;flex:none}
+.nohero{display:flex;align-items:baseline;gap:12px;margin-top:22px}
+.nohero b{font:300 104px/.85 var(--disp);letter-spacing:-.045em;color:var(--orchil)}
+.nohero span{font:400 18px/1.2 var(--sans)}
+.ghost{margin-top:16px;border:1.5px dashed rgba(91,46,86,.38);border-radius:22px;min-height:132px;display:grid;place-items:center;text-align:center;color:var(--muted);padding:16px}
+.ghost p{font-size:18px;line-height:1.35}
+@media(min-width:440px){.hrow2{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.hrow2 .hint{margin:0}}
+@media(min-width:600px){
+  .tk{grid-template-columns:104px 1fr;min-height:132px}
+  .idx b{font-size:54px}
+  .bd{padding:20px 24px 20px 28px}
+  .tk .nm{font-size:26px}
+  .sd{flex-direction:row;gap:18px;flex-wrap:wrap;margin-top:8px;font-size:17px}
+  .sd span+span::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--orchil-l);vertical-align:3px;margin-right:12px}
+}
+@media(min-width:600px) and (min-height:840px){.tk{min-height:150px}.idx b{font-size:64px}.tk .nm{font-size:30px}.deal{gap:12px}.qa{margin-top:20px}}
+@media(max-height:720px){
+  .deal{gap:8px;margin-top:10px}
+  .tk{border-radius:18px;min-height:0}
+  .idx b{font-size:38px}
+  .bd{padding:8px 14px 8px 16px}
+  .tk .nm{margin-top:4px;font-size:21px}
+  .sd{margin-top:3px}
+  .qa{margin-top:10px;gap:0}
+  .qa .btn{height:46px}
+  .qa .btn.p{height:52px}
+  .ql button{min-height:44px}
+  .nohero{margin-top:12px}.nohero b{font-size:84px}
+  .ghost{min-height:96px;margin-top:12px}
+  .hrow2 h1{padding-top:0}
+}
+/* very short views (the Duo closed as the home-screen app, about 628 tall): the cards, Deal three more and the quiet links still clear the dock */
+@media(max-height:650px){
+  .deal{gap:6px;margin-top:6px}
+  .bd{padding-top:5px;padding-bottom:5px}
+  .qa{margin-top:6px}
+}
+
+/* scrim, night menu and the pick sheet (above the dock) */
 .scrim{position:fixed;inset:0;background:rgba(30,26,22,.42);opacity:0;transition:opacity 200ms;z-index:20}
 .scrim.open{opacity:1}
 .menu,.sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:640px;width:100%;background:var(--paper);border-radius:30px 30px 0 0;box-shadow:0 -10px 40px rgba(30,26,22,.18);z-index:21;transform:translateY(105%);transition:transform 260ms var(--ease)}
 .menu.open,.sheet.open{transform:translateY(0)}
-.menu{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
-.sheet{display:flex;flex-direction:column}
+.menu{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+.sheet{display:flex;flex-direction:column;top:64px}
+html.short .sheet{top:40px}
 .grab{width:40px;height:5px;border-radius:3px;background:var(--hair);margin:10px auto 0;flex:none}
-.sh-top{display:flex;justify-content:space-between;align-items:center;padding:6px 20px 0;font:600 17px var(--disp);min-height:52px}
-.linkb{color:var(--orchil);font:600 17px var(--sans);min-height:48px;padding:0 0 0 18px}
+.sh-top{display:flex;justify-content:space-between;align-items:center;padding:4px 20px 0;min-height:56px;flex:none}
+.sh-top b{font:600 18px var(--disp)}
+.linkb{color:var(--orchil);font:600 17px var(--sans);min-height:48px;min-width:48px;display:grid;place-items:center;padding:0 4px}
 .backb{width:48px;height:48px;margin-left:-12px;display:grid;place-items:center;color:var(--bog)}
 .backb:disabled{visibility:hidden}
-.mlist{margin:6px 20px 0}
-.mrow{display:grid;grid-template-columns:44px 1fr auto;align-items:center;width:100%;min-height:68px;border-bottom:1px solid var(--hair)}
-.mlist li:last-child .mrow{border-bottom:0}
-.mrow .mi{color:var(--orchil)}
-.mrow .nm{font-size:23px}
+.mhd{padding:6px 20px 8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mhd h2{font:300 34px/1.05 var(--disp);letter-spacing:-.025em}
+.mhd p{color:var(--muted);font-size:18px;margin-top:4px}
+.mhd .linkb{min-width:64px;justify-items:end;text-align:right}
+.mlist{margin:0 20px}
+.mrow{display:grid;grid-template-columns:44px 1fr auto;align-items:center;width:100%;min-height:68px;border-top:1px solid var(--hair)}
+.mrow.first{border-top:1.5px solid var(--bog)}
+.mrow .mi{color:var(--orchil);display:grid}
+.mrow .nm{font:500 23px var(--disp);letter-spacing:-.01em}
 .mrow .tag{color:var(--muted);display:flex}
+.mrow.mute .mi,.mrow.mute .nm{color:var(--muted)}
 .mrow.dis{opacity:.4}
 .mrow:active:not(.dis){background:var(--lime)}
 .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 20px 0;flex:none}
-.slot{height:96px;border-radius:14px;background:var(--lime);padding:10px 11px;display:flex;flex-direction:column;position:relative;border:1.5px solid transparent}
+.slot{height:92px;border-radius:14px;background:var(--lime);padding:9px 11px;display:flex;flex-direction:column;position:relative;border:1.5px solid transparent}
 .slot small{font:500 16px var(--sans);color:var(--muted)}
 .slot .n{font:500 18px/1.08 var(--disp);letter-spacing:-.01em;margin-top:auto;overflow:hidden}
-.slot .ok{position:absolute;right:9px;top:9px;width:20px;height:20px;border-radius:50%;background:var(--bog);color:var(--paper);display:grid;place-items:center}
+.slot .ok{position:absolute;right:9px;top:9px;width:22px;height:22px;border-radius:50%;background:var(--bog);color:var(--paper);display:grid;place-items:center}
 .slot.open{background:none;border:1.5px dashed var(--orchil)}
 .slot.open small{color:var(--orchil)}
 .slot.open .n{color:var(--orchil);display:grid;place-items:end start}
 .slot.cur{border:1.5px solid var(--orchil)}
 .slot.flash{box-shadow:inset 0 0 0 100px rgba(148,75,140,.22)}
 .slot.open.cur{border-style:dashed}
-.stage{position:relative;flex:1;min-height:0;overflow:hidden;margin-top:4px}
+.stage{position:relative;flex:1;min-height:0;overflow:hidden;margin-top:2px}
 .pane{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform 260ms var(--ease),opacity 260ms ease}
 .pane.from-r{transform:translateX(56px);opacity:0}
 .pane.from-l{transform:translateX(-56px);opacity:0}
 .pane.to-l{transform:translateX(-56px);opacity:0;pointer-events:none}
 .pane.to-r{transform:translateX(56px);opacity:0;pointer-events:none}
-.pane h2{flex:none;font:300 38px/1.05 var(--disp);letter-spacing:-.025em;padding:10px 20px 4px}
+.pane h2{flex:none;font:300 36px/1.05 var(--disp);letter-spacing:-.025em;padding:8px 20px 2px}
 .pl{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 20px calc(30px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
 .msg{position:absolute;left:20px;right:20px;bottom:16px;z-index:2;pointer-events:none;font-size:16px;color:var(--paper);font-weight:600}
 .msg:not(:empty){background:var(--bog);padding:10px 14px;border-radius:12px}
-.sect{margin:20px 0 2px}
-.sect h3{font:500 16px var(--sans);color:var(--muted)}
-.prow{display:flex;justify-content:space-between;align-items:center;gap:12px;width:calc(100% + 40px);margin:0 -20px;padding:0 20px;min-height:62px;border-bottom:1px solid var(--hair)}
+.sect{margin:12px 0 0}
+.sect h3{font:500 16px var(--sans);color:var(--muted);padding:6px 0 2px}
+.prow{display:grid;grid-template-columns:58px 1fr auto;align-items:center;gap:0;width:100%;min-height:68px;border-top:1px solid var(--hair);padding:6px 0;border-radius:0}
 .plist li{border-radius:12px}
+.prow .mi{display:flex;flex-direction:column;align-items:flex-start}
+.prow .mi b{font:300 30px/1 var(--disp);color:var(--orchil);letter-spacing:-.03em}
+.prow .mi i{font:400 16px/1.1 var(--mono);font-style:normal;color:var(--muted)}
+.prow .pb{display:block;min-width:0}
+.prow .nm2{display:block;font:500 21px/1.15 var(--disp);letter-spacing:-.01em}
+.prow .ft{display:block;font-size:16px;line-height:1.3;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden}
+.prow .pe{display:flex;align-items:center;gap:8px;justify-content:flex-end;padding-left:8px}
 .prow:active:not(.taken){background:var(--lime)}
-.prow.sel{background:var(--lime);border-radius:12px;border-bottom-color:transparent}
-.prow .nm{font-size:22px;flex:1;min-width:0}
-.prow .tag{font:400 16px var(--mono);color:var(--muted);text-align:right;max-width:46%}
-.prow.sel .tag{color:var(--bog)}
-.tag .fresh{color:var(--orchil);font-weight:500}
+.prow.sel{background:var(--lime);margin:0 -12px;width:calc(100% + 24px);padding-left:12px;padding-right:12px;border-radius:12px;border-top-color:transparent}
+.prow.taken{opacity:.45}
+.newp{font:600 16px/1.3 var(--sans);color:var(--orchil);background:var(--lime);border-radius:99px;padding:0 10px;white-space:nowrap}
+.prow.sel .newp{background:var(--paper)}
 .ck{display:none;width:26px;height:26px;border-radius:50%;background:var(--bog);place-items:center;color:var(--paper);flex:none}
 .prow.sel .ck{display:grid}
-.prow.quiet{min-height:56px}
+.prow.quiet{min-height:52px;grid-template-columns:1fr auto}
 .prow.quiet .nm{font:500 17px var(--sans);color:var(--muted)}
-.prow.taken{opacity:.45}
 
-/* the plum moment */
+/* the saved moment: fanned day cards on limewash, over the dock */
 .moment{position:fixed;inset:0;z-index:30;background:var(--paper);overflow-y:auto;max-width:640px;margin:0 auto}
-.panel{position:relative;height:420px;background:var(--orchil);border-radius:0 0 40px 40px;overflow:hidden;color:var(--lime)}
-.fan{position:relative;height:300px;margin-top:40px}
-.fan .c{position:absolute;left:50%;top:50px;width:124px;height:178px;margin-left:-62px;border-radius:18px;background:var(--paper);color:var(--bog);padding:12px 13px;transform-origin:50% 100%;box-shadow:0 14px 24px -10px rgba(0,0,0,.6)}
-.fan .c:nth-child(odd){background:var(--lime)}
-.fan .c .d{font:600 25px var(--disp);letter-spacing:-.02em}
-.fan .c .nm{font:500 18px/1.1 var(--disp);margin-top:8px;color:var(--bog)}
-.fan .c .av{position:absolute;left:13px;bottom:13px}
+.panel{position:relative;height:350px;background:var(--lime);border-radius:0 0 40px 40px;overflow:hidden}
+.fan{position:relative;height:100%}
+.fc{position:absolute;left:50%;top:70px;width:110px;height:170px;margin-left:-55px;border-radius:16px;background:#fff;border:1px solid var(--hair);padding:12px;transform-origin:50% 140%;box-shadow:0 14px 24px -12px rgba(30,26,22,.55);display:flex;flex-direction:column;color:var(--bog)}
+.fc .d{font:600 20px/1 var(--disp);letter-spacing:-.02em;padding-bottom:10px;border-bottom:1.5px dashed rgba(91,46,86,.38)}
+.fc .nm{font:500 18px/1.1 var(--disp);margin-top:10px;visibility:hidden}
+.fc.fro .nm{visibility:visible}
+.fc .av{position:absolute;left:12px;bottom:12px;width:30px;height:30px}
 .conf{position:absolute;z-index:4}
-.center{text-align:center}
-.hd{font:300 46px/1.02 var(--disp);letter-spacing:-.03em;margin-top:28px}
+.center{text-align:center;padding:26px 20px 0}
+.hd{font:300 46px/1.02 var(--disp);letter-spacing:-.03em}
 .moment .sub{margin-top:8px}
-.tally{display:flex;justify-content:center;gap:22px;margin-top:20px;font:500 17px var(--sans);color:var(--muted)}
-.tally span{display:flex;gap:8px;align-items:center}
+.tally{display:flex;justify-content:center;gap:22px;margin-top:18px;font:500 17px var(--sans);color:var(--muted)}
+.tally span{display:flex;gap:8px;align-items:center;white-space:nowrap}
 .tally .av{width:28px;height:28px}
 .actions{display:flex;flex-direction:column;gap:12px;padding:24px 20px 0}
 .actions .btn{height:56px;border-radius:28px;display:flex;gap:10px;align-items:center;justify-content:center;font-size:18px}
@@ -188,7 +299,7 @@ h1 em{color:var(--orchil)}
 .mnote{margin:14px 20px 0;font-size:16px;line-height:1.4;color:var(--muted);text-align:center}
 .mnote:empty{display:none}
 .mnote.bad{color:var(--orchil);font-weight:600}
-.mdone{padding:22px 20px calc(30px + env(safe-area-inset-bottom))}
+.mdone{padding:22px 20px calc(28px + env(safe-area-inset-bottom))}
 .mdone .btn{display:grid;width:100%}
 .linkbox{display:block;width:calc(100% - 40px);margin:10px 20px 0;font:500 16px var(--mono);padding:12px;border:1.5px solid var(--bog);background:#fff;border-radius:12px}
 
@@ -239,7 +350,7 @@ h1 em{color:var(--orchil)}
 .it{display:grid;grid-template-columns:42px 1fr auto;align-items:center;width:100%;min-height:58px;border-bottom:1px solid var(--hair);transition:background-color 90ms}
 .it:active{background:var(--lime)}
 .cb{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(30,26,22,.4);display:grid;place-items:center;color:var(--paper)}
-.it .nm{font:500 20px var(--disp)}
+.it .nm{font:500 20px var(--disp);letter-spacing:-.01em}
 .it .qty{font:400 16px var(--mono);color:var(--muted);text-align:right;white-space:nowrap}
 .it.done .cb{background:var(--bog);border-color:var(--bog)}
 .it.done .nm{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
@@ -268,17 +379,11 @@ button.dayrow:active{background:var(--lime)}
 .steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;padding:8px 0;font-size:17px;line-height:1.4}
 .steps li::before{content:counter(s);font:300 26px/1 var(--disp);color:var(--orchil)}
 .cdo{display:inline-flex;align-items:center;margin-top:12px;height:48px;border-radius:24px;border:1.5px solid var(--orchil);color:var(--orchil);padding:0 20px;font:600 17px var(--sans);text-decoration:none}
-.foot{padding:26px 0 40px;font-size:16px;color:var(--muted)}
+.foot{padding:18px 0 40px;font-size:16px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;min-height:44px}
 .sample{font:500 16px/1.2 var(--sans);color:var(--muted);margin-top:14px}
 .btn.o.link{display:inline-grid}
 .err-page .btn{display:inline-grid;text-decoration:none}
-
-/* title row: the Week gets one outlined pill to the List, the List the same pill back (3.1; the tab bar replaces both in 3.2) */
-.hrow{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
-.hrow h1{min-width:0;white-space:nowrap}
-.hrow h1.long{font-size:34px}
-.swp{flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;min-width:44px;border:1.5px solid var(--orchil);border-radius:22px;padding:0 18px 0 14px;color:var(--orchil);font:600 17px var(--sans);white-space:nowrap;text-align:center;transition:background-color 90ms}
-.swp:active{background:var(--lime)}
 
 /* the store List (3.1, look A): everything is under .lst so the link list keeps its own look */
 .lst h1{font:300 44px/1 var(--disp);letter-spacing:-.03em;padding:0}
@@ -348,26 +453,43 @@ button.dayrow:active{background:var(--lime)}
 }
 
 /* short screens (the iPhone Duo closed, small iPhones, a phone held sideways): the same look, set tighter so more fits above
-   the bottom bar. app.js decides and puts .short on <html> (never for a regular iPhone in a Safari tab); type stays 16 px or more. */
+   the tab bar. app.js decides and puts .short on <html> (never for a regular iPhone in a Safari tab); type stays 16 px or more. */
 html.short h1{font-size:38px;padding-top:6px}
-html.short .rule{margin-top:10px}
-html.short .wtabs{margin:8px 0 0}
-html.short .week{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
-html.short .week li,html.short .night{min-height:56px}
-html.short .night{padding:6px 0}
-html.short .deck{top:84px}
-html.short .bar{min-height:68px;padding-top:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
-html.short .sh-top{min-height:46px;padding-top:2px}
+html.short .trow h1{font-size:38px;padding-top:0}
+html.short .trow h1.long{font-size:28px}
+html.short .docked .top{height:44px;min-height:44px}
+html.short .trow{min-height:46px}
+html.short .save{height:44px}
+html.short .prow2{margin-top:4px}
+html.short .wl{margin-top:6px}
+html.short .ws{margin-top:1px}
+html.short .week li,html.short .night{min-height:54px}
+html.short .night{padding:4px 0}
+html.short .dc{height:44px}
+html.short .rest{min-height:46px}
+html.short .tabs{padding:4px 8px max(6px,env(safe-area-inset-bottom))}
+html.short .tab{height:50px;gap:2px}
+html.short .app.docked{padding-bottom:calc(var(--dock) + 20px + env(safe-area-inset-bottom))}
+html.short .mhd h2{font-size:30px}
 html.short .mrow{min-height:60px}
-html.short .slot{height:84px;padding:8px 11px}
-html.short .pane h2{font-size:28px;padding:8px 20px 2px}
-html.short .sect{margin:14px 0 2px}
-html.short .prow{min-height:52px;padding-top:4px;padding-bottom:4px}
-html.short .prow.quiet{min-height:48px}
-html.short .panel{height:330px}
-html.short .fan{margin-top:16px}
-html.short .hd{font-size:40px;margin-top:22px}
-html.short .hrow h1.long{font-size:30px}
+html.short .sh-top{min-height:44px;padding-top:0}
+html.short .grab{margin-top:8px}
+html.short .slots{padding-top:6px}
+html.short .slot{height:78px;padding:6px 11px}
+html.short .pane h2{font-size:28px;padding:4px 20px 0}
+html.short .sect{margin-top:4px}
+html.short .sect h3{padding:4px 0 0}
+html.short .prow{min-height:54px;padding-top:2px;padding-bottom:2px}
+html.short .prow.quiet{min-height:44px}
+html.short .panel{height:290px}
+html.short .fc{top:44px;height:160px}
+html.short .center{padding-top:18px}
+html.short .hd{font-size:40px}
+html.short .tally{margin-top:12px}
+html.short .mdone{padding-top:16px}
+/* the list did not send: three actions join the moment, so the panel gives up room and Done stays on screen */
+html.short .moment.acts .panel{height:216px}
+html.short .moment.acts .fc{top:24px;height:146px}
 html.short .lst h1{font-size:36px}
 html.short .lst .trow{min-height:46px;padding-top:2px}
 html.short .lst .pills{margin-top:6px}
@@ -392,12 +514,10 @@ html.short .tile span{font-size:50px}
   .slot.flash{animation:slotflash .6s ease-out both}
   @keyframes slotflash{from{box-shadow:inset 0 0 0 100px rgba(148,75,140,.4)}to{box-shadow:inset 0 0 0 100px rgba(148,75,140,0)}}
   @keyframes flash{from{background:rgba(148,75,140,.32)}}
-  .deck{animation:deckin .5s ease-out both}
-  @keyframes deckin{from{transform:translateY(8px);opacity:0}}
   .slot .ok.pop{animation:pop .3s cubic-bezier(.3,1.5,.5,1) both}
   @keyframes pop{from{transform:scale(.4)}to{transform:none}}
-  .moment.play .fanc{animation:fan .5s cubic-bezier(.2,.9,.3,1.1) both;animation-delay:calc(var(--i)*30ms)}
-  @keyframes fan{from{opacity:0;transform:translateX(0) rotate(0deg) translateY(60px)}to{opacity:1;transform:translateX(var(--x)) rotate(var(--r))}}
+  .moment.play .fanc{animation:fan .5s cubic-bezier(.2,.9,.3,1.1) both;animation-delay:calc(var(--i)*20ms)} /* five cards: 80 + 500 = 580 ms */
+  @keyframes fan{from{opacity:0;transform:translateY(60px) rotate(0deg)}to{opacity:1;transform:rotate(var(--r))}}
   .moment.play .fall{animation:fall .5s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i)*5ms)}
   @keyframes fall{from{opacity:0;transform:translateY(-50px) rotate(0)}to{opacity:1;transform:rotate(var(--r,0))}}
   .field.bad{animation:shake .3s ease-out}
@@ -414,6 +534,7 @@ html.still *,html.still *::before,html.still *::after{animation:none!important}
 </head>
 <body>
 <div class="app" id="app"></div>
+<div class="dock" id="dock" hidden></div>
 <div class="scrim" id="scrim" hidden></div>
 <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Night" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Pick dinner" hidden>
@@ -1076,8 +1197,8 @@ function planMove(saved, drafts, me) {
 return { SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove };
 })();
 const __v3 = (() => {
-const { buildStoreList, findItem, addDays } = __logic;
-const { toV1Week } = __v2;
+const { buildStoreList, findItem, addDays, dinnerMinutes, lastHad, pickCounts } = __logic;
+const { toV1Week, availableMeals, isNew, mulberry32 } = __v2;
 // Version 3.1 "shop by day": pure list logic. No storage, no clock, no dependencies beyond logic.js / v2.js.
 // The page passes in: the shared week (as sync.js week(monday) gives it), the meals library, "today" (YYYY-MM-DD),
 // and this phone's list memory for that week. Every function returns new values and never mutates its inputs.
@@ -1360,7 +1481,158 @@ function dismissNotNeeded(state, key, n) {
   return s;
 }
 
-return { lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded };
+// ---------- 3.2 deal three ----------
+// The three dinner cards for one night: Favorite, Not lately, New. Pure; see work order 2026-11-10-L.
+
+const SOFT3 = ['weekProtein', 'lastWeek', 'cardProteins'];
+const ROLES = ['favorite', 'notLately', 'new'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function thumb(ratings, id, who) {
+  const r = isObj(ratings) && has(ratings, id) && isObj(ratings[id]) ? ratings[id] : null;
+  const v = r ? r[who] : 0;
+  return v === 1 || v === -1 ? v : 0;
+}
+function thumbDown(ratings, id) { return thumb(ratings, id, 'J') === -1 || thumb(ratings, id, 'L') === -1; }
+function thumbUp(ratings, id) { return thumb(ratings, id, 'J') === 1 || thumb(ratings, id, 'L') === 1; }
+
+function otherHome(week, n) {
+  const out = [];
+  for (let i = 0; i < NIGHTS; i++) if (i !== n && isHome(nightAt(week, i))) out.push(nightAt(week, i));
+  return out;
+}
+
+// Valid candidates for night n: [{ main, pairs: [[sideA, sideB] ...] }], in main id order. Never relaxed.
+function dealCandidates({ week, n, meals, today, ratings = null }) {
+  if (!validNight(n) || !meals) return [];
+  const lib = availableMeals(meals, today);
+  const others = otherHome(week, n);
+  const taken = new Set(others.map((x) => x.m));
+  const sideById = new Map(lib.sides.filter((s) => s && typeof s.id === 'string').map((s) => [s.id, s]));
+  const out = [];
+  for (const main of lib.mains.slice().sort((a, b) => (a.id < b.id ? -1 : 1))) {
+    if (!main || typeof main.id !== 'string' || taken.has(main.id) || thumbDown(ratings, main.id)) continue;
+    const ids = [...new Set((main.goesWith || []).filter((id) => sideById.has(id) && !thumbDown(ratings, id)))].sort();
+    const pairs = [];
+    for (let i = 0; i < ids.length; i++) {
+      for (let j = i + 1; j < ids.length; j++) {
+        if (dinnerMinutes(main, [sideById.get(ids[i]), sideById.get(ids[j])]) <= 30) pairs.push([ids[i], ids[j]]);
+      }
+    }
+    if (pairs.length) out.push({ main, pairs });
+  }
+  return out;
+}
+
+function dateLabel(iso) {
+  const [, m, d] = iso.split('-');
+  return `${MONTHS[Number(m) - 1]} ${Number(d)}`;
+}
+
+function dealThree({ week, n, meals, today, history = [], prevMains = [], ratings = null, shown = [], rng } = {}) {
+  const none = { cards: [], relaxed: [], candidates: 0, startedOver: false };
+  try {
+    if (!validNight(n) || !meals || typeof today !== 'string') return none;
+    const draw = typeof rng === 'function' ? rng : mulberry32(1);
+    const cands = dealCandidates({ week, n, meals, today, ratings });
+    if (!cands.length) return none;
+    const ids = cands.map((c) => c.main.id);
+    const had = lastHad(history, today, ids);
+    const counts = pickCounts(history, ids);
+    const prev = new Set(Array.isArray(prevMains) ? prevMains : []);
+    const others = otherHome(week, n);
+    const weekProteins = new Set(others.map((x) => { const it = findItem(meals, x.m); return it && it.protein; }).filter(Boolean));
+    const otherSides = new Set();
+    for (const x of others) { if (x.s0) otherSides.add(x.s0); if (x.s1) otherSides.add(x.s1); }
+    const shownSet = new Set(Array.isArray(shown) ? shown : []);
+    const ago = (id) => had[id].daysAgo;
+    const pickOf = (list) => list[Math.min(list.length - 1, Math.floor(draw() * list.length))];
+    const best = (list, key) => { const top = Math.max(...list.map(key)); return list.filter((c) => key(c) === top); };
+
+    const passes = (c, level, hand) => {
+      const p = c.main.protein;
+      if (level < 1 && p && weekProteins.has(p)) return false;
+      if (level < 2 && prev.has(c.main.id)) return false;
+      if (level < 3 && p && hand.some((h) => h.c.main.protein === p)) return false;
+      return true;
+    };
+    const byRole = (role, list) => {
+      const id = (c) => c.main.id;
+      if (role === 'favorite') {
+        const rested = list.filter((c) => ago(id(c)) === null || ago(id(c)) > 7);
+        const sum = (c) => thumb(ratings, id(c), 'J') + thumb(ratings, id(c), 'L');
+        let t = rested.filter((c) => thumb(ratings, id(c), 'J') === 1 && thumb(ratings, id(c), 'L') === 1);
+        if (!t.length) t = rested.filter((c) => sum(c) === 1 && !thumbDown(ratings, id(c)));
+        if (!t.length) { const r = rested.filter((c) => counts[id(c)] >= 1); t = r.length ? best(r, (c) => counts[id(c)]) : []; }
+        return t;
+      }
+      if (role === 'notLately') {
+        const t = list.filter((c) => ago(id(c)) !== null && ago(id(c)) >= 14);
+        return t.length ? best(t, (c) => ago(id(c))) : [];
+      }
+      let t = list.filter((c) => isNew(c.main, today, counts[id(c)]));
+      if (!t.length) t = list.filter((c) => counts[id(c)] === 0);
+      return t;
+    };
+    // Fill slots hand.length .. target-1 from pool at one level. Returns a new hand.
+    const fill = (start, pool, level, target) => {
+      const hand = start.slice();
+      while (hand.length < target) {
+        const free = pool.filter((c) => !hand.some((h) => h.c === c) && passes(c, level, hand));
+        if (!free.length) break;
+        const role = ROLES[hand.length] || 'any';
+        const fit = byRole(role, free);
+        hand.push(fit.length ? { c: pickOf(fit), role } : { c: pickOf(free), role: 'any' });
+      }
+      return hand;
+    };
+    const climb = (start, pool, target) => {
+      let hand = start;
+      let level = 0;
+      for (; level <= SOFT3.length; level++) {
+        hand = fill(start, pool, level, target);
+        if (hand.length >= target) break;
+      }
+      return { hand, level: Math.min(level, SOFT3.length) };
+    };
+
+    const target = Math.min(3, cands.length);
+    const unshown = cands.filter((c) => !shownSet.has(c.main.id));
+    let hand, level, startedOver = false;
+    if (unshown.length >= target) {
+      ({ hand, level } = climb([], unshown, target));
+    } else {
+      const first = fill([], unshown, SOFT3.length, unshown.length);
+      ({ hand, level } = climb(first, cands, target));
+      startedOver = hand.some((h) => shownSet.has(h.c.main.id));
+    }
+
+    const cards = hand.map(({ c, role }) => {
+      const id = c.main.id;
+      const score = (p) => [p.filter((s) => otherSides.has(s)).length, -p.filter((s) => thumbUp(ratings, s)).length];
+      let top = null;
+      let tied = [];
+      for (const p of c.pairs) {
+        const sc = score(p);
+        if (!top || sc[0] < top[0] || (sc[0] === top[0] && sc[1] < top[1])) { top = sc; tied = [p]; }
+        else if (sc[0] === top[0] && sc[1] === top[1]) tied.push(p);
+      }
+      const pair = pickOf(tied);
+      const sideItems = pair.map((s) => findItem(meals, s));
+      let reason;
+      if (thumb(ratings, id, 'J') === 1 && thumb(ratings, id, 'L') === 1) reason = { kind: 'both', text: 'You both like it' };
+      else if (isNew(c.main, today, counts[id])) reason = { kind: 'new', text: 'New' };
+      else if (ago(id) === null) reason = { kind: 'notYet', text: 'Not yet' };
+      else reason = { kind: 'lastHad', text: `Last had ${dateLabel(addDays(today, -ago(id)))}` };
+      return { m: id, s0: pair[0], s1: pair[1], minutes: dinnerMinutes(c.main, sideItems), role, reason };
+    });
+    return { cards, relaxed: SOFT3.slice(0, level), candidates: cands.length, startedOver };
+  } catch (e) {
+    return none;
+  }
+}
+
+return { lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded, dealCandidates, dealThree };
 })();
 const __sync = (() => {
 const { SERVER_TIME, isEmptyNight, applyPick, setState, toV1Week, planDeal, dealLabel, availableMeals, prevMains: prevMainsOf, saveMessage, planMove, mulberry32, newOp } = __v2;
@@ -1744,6 +2016,18 @@ function createSync({ store, storage, me, now = () => Date.now(), onEvent = () =
     return setNight(monday, n, r.rec);
   }
 
+  // A picked Deal-three card: the whole night (main and both sides) as one change.
+  function setDinner(monday, n, card) {
+    const c = card && typeof card === 'object' ? card : {};
+    if (!Number.isInteger(n) || n < 0 || n >= DAY_COUNT) return { ok: false, error: 'bad night' };
+    if (typeof c.m !== 'string' || !c.m.startsWith('m-')) return { ok: false, error: 'not a main' };
+    if (typeof c.s0 !== 'string' || !c.s0.startsWith('s-') || typeof c.s1 !== 'string' || !c.s1.startsWith('s-')) {
+      return { ok: false, error: 'need two sides' };
+    }
+    if (c.s0 === c.s1) return { ok: false, error: 'That side is already on this day.' };
+    return setNight(monday, n, homeRec({ m: c.m, s0: c.s0, s1: c.s1 }));
+  }
+
   function mark(monday, n, st) {
     return setNight(monday, n, setState(week(monday).nights[n], st));
   }
@@ -2005,7 +2289,7 @@ function createSync({ store, storage, me, now = () => Date.now(), onEvent = () =
     start, close, flush, idle,
     week, weeks, presence, setPresence,
     get online() { return !!store.online; },
-    setNight, pick, mark,
+    setNight, pick, mark, setDinner,
     deal, dealAgain, swap,
     save, moveFromV1,
     // For tests and the page's "waiting to send" note.
@@ -2140,7 +2424,7 @@ const firebaseConfig = {
 
 return { firebaseConfig };
 })();
-const { TZ, DAY_COUNT, isValidISODate, addDays, localDate, thisMonday, comingMonday, daysBetween, emptyWeek, findItem, isEatOut, isAway, setEatOut, canSave, isCelebration, validatePick, dinnerMinutes, buildStoreList, encodeWeek, decodeWeek, weekLink, isMonday, pickCounts, lastHad, SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove, lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded, createSync, createFirebaseStore } = { ...__logic, ...__v2, ...__v3, ...__sync, ...__fbstore };
+const { TZ, DAY_COUNT, isValidISODate, addDays, localDate, thisMonday, comingMonday, daysBetween, emptyWeek, findItem, isEatOut, isAway, setEatOut, canSave, isCelebration, validatePick, dinnerMinutes, buildStoreList, encodeWeek, decodeWeek, weekLink, isMonday, pickCounts, lastHad, SERVER_TIME, NAMES, RECORD_FIELDS, isEmptyNight, toV1Week, applyPick, setState, mulberry32, newOp, isReleased, availableMeals, isNew, planDeal, dealLabel, shouldCelebrate, historyWeeks, prevMains, saveMessage, encodeInvite, decodeInvite, planMove, lineKey, sig, emptyListState, normalizeListState, chooseNights, setChosen, listLines, listView, tickLine, untickLine, toggleLine, ackNight, dismissNotNeeded, dealCandidates, dealThree, createSync, createFirebaseStore } = { ...__logic, ...__v2, ...__v3, ...__sync, ...__fbstore };
 const FIREBASE_CONFIG = __config.firebaseConfig;
 // Dinners page (version 2 Week in Look 3, plus the version 3.1 store List). Uses the modules inlined before this file (logic, v2, v3, sync, firebase-store and, in
 // fixtures only, the fake store) and MEALS (meals.json). Personal settings (household key, channel, who) live in
@@ -2181,14 +2465,11 @@ const other = (me) => (me === 'J' ? 'L' : 'J');
 const standalone = () => window.navigator.standalone === true || !!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
 const shortScreen = () => window.innerHeight <= 700 && (standalone() || window.innerWidth > 440 ||
   window.innerWidth >= window.innerHeight * 0.75 || Math.max(window.screen.width, window.screen.height) <= 720);
-const sheetHeight = () => Math.round(Math.min(window.innerHeight * 0.9, 800)) + 'px';
 let fitWidth = 0;
 function fit() {
   if (window.innerWidth === fitWidth) return;
   fitWidth = window.innerWidth;
   document.documentElement.classList.toggle('short', shortScreen());
-  const sheet = document.getElementById('sheet');
-  if (sheet && !sheet.hidden) sheet.style.height = sheetHeight();
 }
 fit();
 window.addEventListener('resize', fit);
@@ -2216,6 +2497,18 @@ const IC = {
   x: svg(16, '<path d="M6 6l12 12M18 6L6 18"/>', 2),
   okd: svg(22, '<path d="M5 12.5l4.5 4.5L19 7.5"/>', 2.4),
   link: svg(22, '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>', 1.8),
+  deck: svg(24, '<rect x="8" y="3.5" width="12" height="16" rx="2.5"/><path d="M5.5 7.5v11a2.5 2.5 0 0 0 2.5 2.5h8"/>'),
+  deckS: svg(22, '<rect x="8" y="3.5" width="12" height="16" rx="2.5"/><path d="M5.5 7.5v11a2.5 2.5 0 0 0 2.5 2.5h8"/>'),
+  pencil: svg(24, '<path d="M4 20l1-4.5L16.5 4a2 2 0 0 1 3 0l.5.5a2 2 0 0 1 0 3L8.5 19z"/><path d="M14 6.5l3.5 3.5"/>'),
+  plusC: svg(18, '<path d="M12 5v14M5 12h14"/>', 1.8),
+  clock: svg(20, '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', 1.9),
+  spark: svg(20, '<path d="M12 3.5c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/>', 1.9),
+  ring: svg(20, '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.6"/>', 1.9),
+  both: '<svg width="25" height="18" viewBox="0 0 31 22" fill="none" stroke-width="1.9" aria-hidden="true"><circle cx="10" cy="11" r="7" stroke="#1E1A16"/><circle cx="21" cy="11" r="7" stroke="#5B2E56"/></svg>',
+  weekT: svg(24, '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', 1.8),
+  listT: svg(24, '<path d="M4.5 7.5l1.6 1.6 2.9-3.2M4.5 16.5l1.6 1.6 2.9-3.2M12.5 7.5h7M12.5 16.5h7"/>', 1.8),
+  chevL: svg(22, '<path d="M15 5l-7 7 7 7"/>', 2),
+  checkB: svg(18, '<path d="M5 12.5l4.5 4.5L19 7.5"/>', 2.4),
 };
 // The rings icon, exactly as Look 3 draws it (screen 5): two rings, Jason ink and Laci plum, on a tilted near-white card
 // with a second plum card behind, on a plum square.
@@ -2275,7 +2568,7 @@ const S = {
   flash: new Set(),    // 'monday|n' nights changed by the other phone or lost a conflict
   refused: new Set(),  // 'monday|n' nights whose write the shared spot refused
   dealing: false,
-  dealtMon: null,      // the Monday whose deal is on screen (arrows, Deal again / Keep)
+  dealtMon: null,      // the Monday whose "Deal us a week" / "Deal the rest" is on screen (swap arrows, "Dealt 2 of 4")
   dealOps: {},         // night -> the op of the dealt (or swapped) record: the arrow shows while it is still that one
   dealResult: null,    // { dealt, target }
   noSignal: false,
@@ -2289,7 +2582,9 @@ const S = {
   rows: [],            // last html per night, so a repaint only touches rows that changed
   freezeUntil: 0,
   list: null,
-  view: FX && FX.view === 'list' ? 'list' : 'week', // inside the household app: the Week (default) or the store List
+  view: FX && FX.view === 'list' ? 'list' : 'week', // inside the household app: the Week (default), the store List or the deal-three screen
+  deal: null,          // the deal-three screen: { n, before, shown, res, picked, expect } while it is open
+  dealHTML: null,      // last html of the deal screen, so a repaint that changes nothing touches nothing
   listLost: false,     // the phone refused the List's check marks (shown on the List only)
   dataIn: false,       // the shared week has arrived (the List chooses nights and keeps its memory only after that)
   listHTML: null,      // last html of the List, so a repaint that changes nothing touches nothing
@@ -2345,13 +2640,17 @@ function history() {
   }
   return S.hist;
 }
-// "20 min · new" (never picked), "20 min · coming up" (picked, not had yet) or "20 min · 5 days ago"
-function quietLine(it) {
-  const h = history(), l = h.last[it.id] || { daysAgo: null, label: 'not yet' };
-  if (l.daysAgo !== null) return `${it.minutes} min · ${esc(l.label)}`;
-  const n = h.counts[it.id] || 0;
-  return `${it.minutes} min · ${isNew(it, todayISO(), n) ? '<span class="fresh">new</span>' : (n > 0 ? 'coming up' : 'not yet')}`;
+// The quiet facts line of a choice: "Had Nov 2 · picked 4×", "Not had yet", "Coming up · picked 1×". The second part is its own span so
+// it can be dropped (never wrapped) when the line would not fit (fitFacts).
+function factsHTML(it) {
+  const h = history(), l = h.last[it.id] || { daysAgo: null }, c = h.counts[it.id] || 0;
+  const first = l.daysAgo !== null ? 'Had ' + shortDate(addDays(todayISO(), -l.daysAgo)) : (c > 0 ? 'Coming up' : 'Not had yet');
+  return `<span class="ft"><span>${esc(first)}</span>${c > 0 ? `<span class="pk"> · picked ${c}×</span>` : ''}</span>`;
 }
+function fitFacts(root) {
+  $$('.ft', root || document).forEach((el) => { const pk = el.querySelector('.pk'); if (pk) { pk.hidden = false; if (el.scrollWidth > el.clientWidth + 1) pk.hidden = true; } });
+}
+window.addEventListener('resize', () => { if (S.sheet) fitFacts($('#sheetStage')); }); // fold, unfold, turn: fit the facts lines again
 const avail = () => availableMeals(MEALS, todayISO());
 
 // ---------- routing ----------
@@ -2362,6 +2661,8 @@ function route() {
   const app = $('#app');
   closeAll(true);
   builderOn = false;
+  app.classList.remove('docked');
+  $('#dock').hidden = true; // setup and the link list never show the tab bar
   const h = getHash();
   if (h.indexOf('#w=') === 0) return renderList(app, h);                // Jason's list: no setup, no household, no network
   if (!S.settings || !S.settings.key || !S.settings.me) return renderSetup(app);
@@ -2405,26 +2706,40 @@ function pickWho(me) {
 }
 
 // ---------- the week ----------
-function mountBuilder(app) {
+// The tab bar (Week, List). Tonight joins as the first tab in release 3.3. The deal-three screen counts as the Week.
+function paintDock() {
+  const dock = $('#dock');
+  const on = S.view === 'list' ? 'list' : 'week';
+  const tab = (act, name, icon, key) => `<button class="tab${on === key ? ' on' : ''}" data-act="${act}"${on === key ? ' aria-current="page"' : ''}><span class="p">${icon}</span>${name}</button>`;
+  dock.innerHTML = `<nav class="tabs" aria-label="Main">${tab('view-week', 'Week', IC.weekT, 'week')}${tab('view-list', 'List', IC.listT, 'list')}</nav>`;
+}
+function topRow(left) {
+  return `<div class="top">${left}<div id="pill"></div></div><div id="warn"></div>`;
+}
+function mountBuilder(app, then) {
   builderOn = true;
   S.rows = [];
   S.hist = null;
   S.listHTML = null;
+  S.dealHTML = null;
+  app.classList.add('docked');
+  paintDock();
+  $('#dock').hidden = false;
   if (S.view === 'list') {
     app.innerHTML = '<div class="lst" id="lst"></div>';
-    S.monday = mondayNow();
-    startSync().then(() => { if (builderOn) { paint(); afterMount(); } });
-    return;
+  } else if (S.view === 'deal' && S.deal) {
+    const d = S.deal;
+    app.innerHTML = `${topRow(`<button class="backl" data-act="deal-back">${IC.chevL}Week</button>`)}
+      <div class="hrow2"><h1>${DAYS_FULL[d.n]}</h1><p class="sub hint" id="hint"></p></div><div id="dealbody"></div>`;
+  } else {
+    app.innerHTML = `${topRow(`<div class="brand">${brandMark()}<span>${esc(APP_NAME)}</span></div>`)}
+      <div class="trow"><h1 id="title"></h1><div id="act"></div></div>
+      <div class="prow2"><div class="pills" role="group" aria-label="Week" id="tabs"></div><div class="cn" id="cnt"></div></div>
+      <ol class="wl week" id="week"></ol>
+      <div id="rest"></div>`;
   }
-  app.innerHTML = `<div class="top"><div class="brand">${brandMark()}<span>${esc(APP_NAME)}</span></div><div id="pill"></div></div>
-    <div id="warn"></div>
-    <div class="hrow"><h1 id="title"></h1><button class="swp" data-act="view-list">${IC.listI}List</button></div><div class="rule"></div>
-    <div class="wtabs" role="group" aria-label="Week" id="tabs"></div>
-    <ol class="week" id="week"></ol>
-    <div class="deck" id="deck" hidden><div class="back" style="transform:rotate(-3deg)"></div><div class="back" style="transform:translate(-2px,-2px) rotate(2deg)"></div><div class="back" style="transform:translate(-4px,-4px)"></div></div>
-    <div class="bar" id="bar"></div>`;
-  S.monday = mondayNow();
-  startSync().then(() => { if (builderOn) { paint(); afterMount(); } });
+  S.monday = S.deal && S.view === 'deal' ? S.monday : mondayNow();
+  startSync().then(() => { if (builderOn) { paint(); afterMount(); if (then) then(); } });
 }
 
 function schedulePaint() {
@@ -2434,6 +2749,7 @@ function schedulePaint() {
 
 function paint() {
   if (!builderOn || !sync) return;
+  if (S.view === 'deal' && S.deal) { paintDeal(); return; }
   S.monday = mondayNow();
   if (S.view === 'list') { paintList(); return; }
   // The open pick sheet always shows the night as it is now, whatever brought the change (a remote or conflict event, the
@@ -2444,24 +2760,27 @@ function paint() {
   saveSnap(view);
   paintHead(view);
   paintRows(view);
-  paintBar(view);
+  paintAct(view);
 }
 
 // A change reports kept:true only when sync wrote the whole pending queue to this phone's storage. That is the only
 // thing that clears "Not kept on this phone" (a tiny test write would say nothing about the queue).
 function wrote(r) { if (r && r.kept === true) S.notKept = false; return r; }
 
-// A range across two months ("Nov 30–Dec 6") gets a smaller title so the List pill beside it always fits.
-function setTitle(t) { const el = $('#title'); el.textContent = t; el.classList.toggle('long', t.length > 9); }
-function paintHead(view) {
-  setTitle(rangeTitle(S.monday));
-  $('#tabs').innerHTML = `<button data-act="tab" data-which="this" aria-pressed="${S.which === 'this'}">This week</button><button data-act="tab" data-which="coming" aria-pressed="${S.which === 'coming'}">Next week</button>`;
+// A range across two months ("Nov 30–Dec 6") gets a smaller title so the action pill beside it always fits.
+function setTitle(t) { const el = $('#title'); if (!el) return; el.textContent = t; el.classList.toggle('long', t.length > 9); }
+function paintPill() {
   const me = S.settings.me, them = other(me);
   let pill = '';
   if (!S.online) pill = '<div class="here off"><span class="dot hollow"></span>Offline</div>';
   else if (S.presence[them]) pill = `<div class="here"><span class="dot"></span>${esc(NAMES[them])} is here</div>`;
-  $('#pill').innerHTML = pill;
-  $('#warn').innerHTML = S.notKept ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Save and send before you close this.</span></div></div>` : '';
+  const el = $('#pill'); if (el) el.innerHTML = pill;
+  const w = $('#warn'); if (w) w.innerHTML = S.notKept ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Save and send before you close this.</span></div></div>` : '';
+}
+function paintHead(view) {
+  setTitle(rangeTitle(S.monday));
+  $('#tabs').innerHTML = `<button data-act="tab" data-which="this" aria-pressed="${S.which === 'this'}">This week</button><button data-act="tab" data-which="coming" aria-pressed="${S.which === 'coming'}">Next week</button>`;
+  paintPill();
 }
 
 function dealtNights(view) {
@@ -2472,7 +2791,7 @@ function dealtNights(view) {
 function rowHTML(n, view, ctx) {
   const night = view.nights[n];
   const date = addDays(S.monday, n), dp = dateParts(date);
-  const day = `<span class="day">${DAYS[n]}<i>${dp.d}</i></span>`;
+  const chip = `<span class="dc"><b>${DAYS[n]}</b><i>${dp.d}</i></span>`;
   const key = `${S.monday}|${n}`;
   const refused = S.refused.has(key) ? `<span class="note">${IC.alert}Not saved. Tap to pick again.</span>` : '';
   const pend = night && night.at === 0;
@@ -2485,29 +2804,29 @@ function rowHTML(n, view, ctx) {
     const mins = dinnerMinutes(main, sides.map(item).filter(Boolean));
     const sideNames = sides.map((id) => dispName(item(id)));
     const hint = sides.length === 0 ? 'Add sides' : (sides.length === 1 ? 'Add a side' : '');
-    body = `<span class="nm">${esc(dispName(it))}${nw}</span>`
-      + (sideNames.length ? `<span class="sd">${esc(sideNames.join(', '))}</span>` : '')
-      + (hint ? `<span class="sd add">${hint}</span>` : '')
-      + (mins > 30 ? `<span class="sd long">about ${mins} min</span>` : '') + refused;
+    body = `<span class="wn">${esc(dispName(it))}${nw}</span>`
+      + (sideNames.length ? `<span class="ws">${esc(sideNames.join(', '))}</span>` : '')
+      + (hint ? `<span class="ws add">${hint}</span>` : '')
+      + (mins > 30 ? `<span class="ws long">about ${mins} min</span>` : '');
     label = `${DAYS_FULL[n]}, ${dispName(it)}${sideNames.length ? ', ' + sideNames.join(' and ') : ''}`;
     if (n === ctx.next) cls += ' next';
     end = ctx.dealt.includes(n)
-      ? `<button class="swapbtn" data-act="swap" data-day="${n}" aria-label="Swap ${DAYS_FULL[n]}"><span class="swap">${IC.swap}</span></button>`
+      ? `<button class="swapbtn" data-act="swap" data-day="${n}" aria-label="Deal three for ${DAYS_FULL[n]}"><span class="swap">${IC.swap}</span></button>`
       : av(night.by, pend ? 'pend' : '');
   } else if (night && night.st === 'o') {
     cls += ' soft';
-    body = `<span class="nm">${IC.eat}Eat out</span>${refused}`; label = `${DAYS_FULL[n]}, eat out`;
+    body = `<span class="wn">${IC.eat}Eat out</span>`; label = `${DAYS_FULL[n]}, eat out`;
     end = av(night.by, pend ? 'pend' : '');
   } else if (night && night.st === 'a') {
     cls += ' soft';
-    body = `<span class="nm">${IC.away}Jason away</span>${refused}`; label = `${DAYS_FULL[n]}, Jason away`;
+    body = `<span class="wn">${IC.away}Jason away</span>`; label = `${DAYS_FULL[n]}, Jason away`;
     end = av(night.by, pend ? 'pend' : '');
   } else if (ctx.dealing && ctx.fillable.includes(n)) {
     body = '<span class="wait"></span>'; label = `${DAYS_FULL[n]}, dealing`;
   } else {
-    body = refused ? refused : `<span class="plus">${IC.plus}</span>`; label = `${DAYS_FULL[n]}, add dinner`;
+    body = `<span class="plus"><i>${IC.plusC}</i>Deal three</span>`; label = `${DAYS_FULL[n]}, deal three`;
   }
-  return `<li class="${cls}" data-n="${n}"><button class="night" data-act="night" data-day="${n}" aria-label="${esc(label)}">${day}<span class="body">${body}</span></button><span class="end">${end}</span></li>`;
+  return `<li class="${cls}" data-n="${n}"><button class="night" data-act="night" data-day="${n}" aria-label="${esc(label)}">${chip}<span class="wb">${body}</span></button><span class="wend">${end}</span>${refused}</li>`;
 }
 
 function paintRows(view) {
@@ -2541,36 +2860,27 @@ function paintRows(view) {
     const li = ol.children[Number(n)];
     if (li) li.classList.add('flash');
   }
-  const homes = view.nights.filter(isHomeN).length;
-  const deck = $('#deck');
-  deck.hidden = !(S.dealing || (homes === 0 && S.dealtMon !== S.monday && view.nights.every(isEmptyNight)));
   setTitle(S.dealing ? 'Dealing' : rangeTitle(S.monday));
 }
 
-function paintBar(view) {
+// The title row's one pill (Deal us a week / Save / Saved), the dinner count and the quiet "Deal the rest" row after Sunday.
+function paintAct(view) {
   const homes = view.nights.filter(isHomeN).length;
-  const dealt = dealtNights(view);
+  const empties = view.nights.filter(isEmptyNight).length;
   const res = S.dealResult;
   const partial = !!(res && res.dealt < res.target && S.dealtMon === S.monday);
-  const dealtMode = S.dealtMon === S.monday && (dealt.length > 0 || partial);
-  const cnt = S.dealing ? 'Dealing' : (homes === 0 ? 'No dinners' : (homes === 1 ? '1 dinner' : `${homes} dinners`));
+  const label = dealLabel(view, { online: S.online, lastResult: partial ? res : null });
+  const stuck = label === 'Deal needs signal' || (label !== null && /^Dealt /.test(label));
   const saved = view.saved && view.nights.every((x) => !x || x.at === undefined || (x.at !== 0 && x.at <= view.saved.at));
-  const sub = !S.dealing && homes > 0 && saved ? '<small>Saved</small>' : '';
-  const btn = (cls, act, text, dis) => `<button class="btn ${cls}${dis ? ' dis' : ''}" data-act="${act}"${dis ? ' aria-disabled="true"' : ''}>${text}</button>`;
-  let btns;
-  if (S.dealing) btns = btn('o', 'none', 'Deal again', true) + btn('f', 'none', 'Keep', true);
-  else if (dealtMode) {
-    btns = (partial ? btn('o', 'none', esc(`Dealt ${res.dealt} of ${res.target}`), true) : btn('o', 'deal-again', 'Deal again', !S.online))
-      + btn('f', 'keep', 'Keep');
-  } else {
-    const label = dealLabel(view, { online: S.online });
-    if (label === null) btns = btn('f wide', 'save', 'Save');
-    else {
-      const off = label === 'Deal needs signal';
-      btns = homes === 0 ? btn('p wide', 'deal', esc(label), off) : btn('o', 'deal', esc(label), off) + btn('f', 'save', 'Save');
-    }
-  }
-  $('#bar').innerHTML = `<div class="cnt">${cnt}${sub}</div>${btns}`;
+  let act;
+  if (homes === 0) act = `<button class="save pl${stuck || S.dealing ? ' dis' : ''}" data-act="deal"${stuck || S.dealing ? ' aria-disabled="true"' : ''}>${esc(label)}</button>`;
+  else if (S.dealing) act = '<button class="save dis" data-act="save" aria-disabled="true">Save</button>';
+  else if (saved) act = `<button class="save ok" data-act="save">${IC.check}Saved</button>`;
+  else act = '<button class="save" data-act="save">Save</button>';
+  $('#act').innerHTML = act;
+  $('#cnt').innerHTML = `<b>${homes}</b><span>${homes === 1 ? 'dinner' : 'dinners'}</span>`;
+  const showRest = !S.dealing && homes >= 1 && empties > 0 && label !== null;
+  $('#rest').innerHTML = showRest ? `<button class="rest${stuck ? ' dis' : ''}" data-act="deal"${stuck ? ' aria-disabled="true"' : ''}><span class="dk">${IC.deck}</span>${esc(label)}</button>` : '';
 }
 
 // ---------- remote changes and events ----------
@@ -2755,13 +3065,15 @@ function openMenu(n) {
   const st = night ? night.st : 'e';
   const empty = isEmptyNight(night);
   const dp = dateParts(addDays(S.monday, n));
-  const row = (act, icon, name, on, dis, tag) => `<li><button class="mrow${dis ? ' dis' : ''}" data-act="${act}"${dis ? ' aria-disabled="true"' : ''}><span class="mi">${icon}</span><span class="nm">${name}</span><span class="tag">${tag || ''}</span></button></li>`;
+  const name = isHomeN(night) ? dispName(item(night.m)) : (st === 'o' ? 'Eat out' : (st === 'a' ? 'Jason away' : ''));
+  const row = (act, icon, label, dis, tag, cls) => `<li><button class="mrow${cls ? ' ' + cls : ''}${dis ? ' dis' : ''}" data-act="${act}"${dis ? ' aria-disabled="true"' : ''}><span class="mi">${icon}</span><span class="nm">${label}</span><span class="tag">${tag || ''}</span></button></li>`;
   const menu = $('#menu');
-  menu.innerHTML = `<div class="grab"></div><div class="sh-top"><span>${DAYS[n]} ${dp.d}</span><button class="linkb" data-act="menu-close">Cancel</button></div>
-    <ul class="mlist">${row('menu-home', IC.home, 'Home dinner', st === 'h', false, st === 'h' ? IC.check : IC.chev)}
-    ${row('menu-o', IC.eatL, 'Eat out', st === 'o', false, st === 'o' ? IC.check : '')}
-    ${row('menu-a', IC.awayL, 'Jason away', st === 'a', false, st === 'a' ? IC.check : '')}
-    ${row('menu-clear', IC.clear, 'Clear', false, empty, '')}</ul>`;
+  menu.innerHTML = `<div class="grab"></div><div class="mhd"><div><h2>${DAYS[n]} ${dp.d}</h2><p>${esc(name)}</p></div><button class="linkb" data-act="menu-close">Cancel</button></div>
+    <ul class="mlist">${row('menu-deal', IC.deck, 'Deal three', false, '', 'first')}
+    ${row('menu-home', IC.pencil, 'Change', false, IC.chev)}
+    ${row('menu-o', IC.eatL, 'Eat out', false, st === 'o' ? IC.check : '')}
+    ${row('menu-a', IC.awayL, 'Jason away', false, st === 'a' ? IC.check : '')}
+    ${row('menu-clear', IC.clear, 'Clear', empty, '', 'mute')}</ul>`;
   menu.hidden = false;
   showScrim(true);
   void menu.offsetHeight;
@@ -2798,7 +3110,6 @@ function showSheet() {
   const sheet = $('#sheet');
   clearTimeout(sheetTimer);
   if (!sheet.hidden && sheet.classList.contains('open')) return;
-  sheet.style.height = sheetHeight();
   sheet.hidden = false;
   showScrim(true);
   document.documentElement.classList.add('locked');
@@ -2858,7 +3169,7 @@ function slotsHTML(dayIdx, step, pop) {
 }
 function headHTML(dayIdx, step, pop) {
   const dp = dateParts(addDays(S.monday, dayIdx));
-  return `<div class="sh-top"><button class="backb" data-act="back" aria-label="Back"${step === 0 ? ' disabled' : ''}>${IC.back}</button><span>${DAYS[dayIdx]} ${dp.d}</span><button class="linkb" data-act="done">Done</button></div>
+  return `<div class="sh-top"><button class="backb" data-act="back" aria-label="Back"${step === 0 ? ' disabled' : ''}>${IC.back}</button><b>${DAYS[dayIdx]} ${dp.d}</b><button class="linkb" data-act="done">Done</button></div>
     <div class="slots">${slotsHTML(dayIdx, step, pop)}</div>`;
 }
 const nightKey = (n) => (n ? [n.st, n.m || '', n.s0 || '', n.s1 || ''].join('|') : '');
@@ -2895,9 +3206,11 @@ function refreshOpenSheet() {
 function rowHTMLPick(it, o) {
   const c = history().counts[it.id] || 0;
   const name = esc(dispName(it));
-  if (o.taken) return `<li><button class="prow taken" disabled aria-disabled="true"><span class="nm">${name}</span><span class="tag">Side ${o.taken}</span></button></li>`;
-  return `<li><button class="prow${o.sel ? ' sel' : ''}" data-act="choose" data-id="${esc(it.id)}" aria-pressed="${!!o.sel}">
-    <span class="nm">${name}</span><span class="tag">${quietLine(it)}${c > 0 ? ` · ${c}×` : ''}</span><span class="ck" aria-hidden="true">${IC.check}</span></button></li>`;
+  const mi = `<span class="mi"><b>${it.minutes}</b><i>min</i></span>`;
+  if (o.taken) return `<li><button class="prow taken" disabled aria-disabled="true">${mi}<span class="pb"><span class="nm2">${name}</span><span class="ft"><span>On this night</span></span></span><span class="pe"></span></button></li>`;
+  const nw = isNew(it, todayISO(), c) ? '<span class="newp">New</span>' : '';
+  return `<li><button class="prow${o.sel ? ' sel' : ''}" data-act="choose" data-id="${esc(it.id)}" aria-pressed="${!!o.sel}">${mi}
+    <span class="pb"><span class="nm2">${name}</span>${factsHTML(it)}</span><span class="pe">${nw}<span class="ck" aria-hidden="true">${IC.check}</span></span></button></li>`;
 }
 function listHTML(dayIdx, step) {
   const d = curNight(dayIdx), home = isHomeN(d);
@@ -2944,6 +3257,7 @@ function openFlow(dayIdx, step) {
   updateHead();
   $('#sheetStage').innerHTML = paneHTML(dayIdx, step);
   showSheet();
+  fitFacts($('#sheetStage'));
 }
 function goStep(dayIdx, step, dir) {
   S.sheet = { kind: 'flow', day: dayIdx, step };
@@ -2953,9 +3267,10 @@ function goStep(dayIdx, step, dir) {
   const tmp = document.createElement('div');
   tmp.innerHTML = paneHTML(dayIdx, step);
   const pane = tmp.firstElementChild;
-  if (reduced()) { stage.replaceChildren(pane); lock('busyUntil', 120); return; }
+  if (reduced()) { stage.replaceChildren(pane); fitFacts(pane); lock('busyUntil', 120); return; }
   pane.classList.add(dir > 0 ? 'from-r' : 'from-l');
   stage.appendChild(pane);
+  fitFacts(pane);
   void pane.offsetHeight;
   pane.classList.remove('from-r', 'from-l');
   if (old) { old.classList.add(dir > 0 ? 'to-l' : 'to-r'); old.setAttribute('inert', ''); }
@@ -2966,6 +3281,7 @@ function refreshList(pop) {
   const sh = S.sheet; if (!sh || sh.kind !== 'flow') return;
   const pane = currentPane(), pl = pane.querySelector('.pl'), top = pl.scrollTop;
   pl.innerHTML = listHTML(sh.day, sh.step);
+  fitFacts(pl);
   pl.scrollTop = top;
   updateHead(pop);
 }
@@ -3041,7 +3357,7 @@ async function doDeal(again) {
   S.dealing = true; S.noSignal = false;
   paint();
   let res = null;
-  try { res = again ? await sync.dealAgain(mon, MEALS) : await sync.deal(mon, MEALS); } catch (e) { res = null; }
+  try { res = again ? await sync.dealAgain(mon, dealMeals()) : await sync.deal(mon, dealMeals()); } catch (e) { res = null; }
   S.dealing = false;
   const view = sync.week(mon);
   if (!res || res.ok === false) { S.noSignal = true; S.rows = []; paint(); return; }
@@ -3057,16 +3373,133 @@ async function doDeal(again) {
   paint();
   playLand(fresh);
 }
-function swapNight(n) {
-  if (!sync) return;
-  const r = wrote(sync.swap(S.monday, n, MEALS));
-  if (!r.ok) return;
-  S.dealOps[n] = sync.week(S.monday).nights[n].op;
-  S.hist = null; S.rows = [];
-  paint();
-  playLand([n]);
+// ---------- the deal-three screen ----------
+// Three dinner cards for one night. The hand is worked out when the screen opens and kept: a repaint never changes it. It is
+// dealt again only when the person asks ("Deal three more") or when one of its mains has become another night's dinner.
+let dealRng = null;
+// What a night holds and which write put it there, for "did it change under me". The write's id is the same while this phone's own
+// change waits in the queue and after it lands, and differs for any later write, so the other phone setting the very same dinner
+// still counts as a change (Undo must never take back someone else's pick).
+const dealKey = (n) => (isEmptyNight(n) ? '' : nightKey(n)) + '|' + ((n && n.op) || '');
+function dealMeals() { return FX && Array.isArray(FX.dealMains) ? { ...MEALS, mains: MEALS.mains.filter((m) => FX.dealMains.includes(m.id)) } : MEALS; } // fixtures only: limit the mains
+function dealHand(shown) {
+  const d = S.deal;
+  if (!dealRng) dealRng = FX ? mulberry32(FX.dealSeed || 3) : Math.random;
+  const ws = sync.weeks().filter((w) => w.monday >= HISTORY_FROM);
+  return dealThree({ week: sync.week(S.monday), n: d.n, meals: dealMeals(), today: todayISO(), history: historyWeeks(ws),
+    prevMains: prevMains(sync.weeks(), S.monday), ratings: null, shown, rng: dealRng });
 }
-function keepDeal() { S.dealtMon = null; S.dealOps = {}; S.dealResult = null; S.rows = []; paint(); }
+function openDeal(n) {
+  if (!sync) return;
+  const night = sync.week(S.monday).nights[n];
+  S.refused.delete(`${S.monday}|${n}`);
+  closeAll(true);
+  const before = isEmptyNight(night) ? null : (night.st === 'h' ? { st: 'h', m: night.m, s0: night.s0, s1: night.s1 } : { st: night.st });
+  S.deal = { n, before, shown: isHomeN(night) ? [night.m] : [], res: null, picked: null, expect: dealKey(night) };
+  S.deal.res = dealHand(S.deal.shown);
+  S.view = 'deal';
+  mountBuilder($('#app'));
+  window.scrollTo(0, 0);
+}
+// back to the Week; landN: a night to land with the row animation; then: something to do once the Week is on screen
+function leaveDeal(landN, then) {
+  S.deal = null; S.view = 'week'; S.dealHTML = null;
+  mountBuilder($('#app'), () => { if (landN !== undefined && landN !== null) playLand([landN]); if (then) then(); });
+  window.scrollTo(0, 0);
+}
+// "Week" (the back link or the tab): a card-picked night lands on the Week with the row animation
+function backToWeek() { const d = S.deal; leaveDeal(d && d.picked !== null ? d.n : null); }
+// Just before this screen writes anything: has the night changed since the screen last showed it (a change from the other phone can
+// arrive a moment before the repaint)? Then nothing is written and the Week shows the night as it now is.
+function dealStale() {
+  const d = S.deal;
+  if (d && sync && dealKey(sync.week(S.monday).nights[d.n]) !== d.expect) { leaveDeal(); return true; }
+  return false;
+}
+function dealMore() {
+  const d = S.deal; if (!d || d.picked !== null) return;
+  const prior = [...new Set(d.shown.concat(d.res.cards.map((c) => c.m)))];
+  const r = dealHand(prior);
+  d.shown = r.startedOver ? r.cards.map((c) => c.m) : prior;
+  d.res = r;
+  paintDeal();
+}
+function dealPick(i) {
+  const d = S.deal; if (!d || d.picked !== null) return;
+  const card = d.res.cards[i]; if (!card) return;
+  if (dealStale()) return;
+  const r = wrote(sync.setDinner(S.monday, d.n, card));
+  if (!r || !r.ok) return;
+  d.picked = i; d.expect = dealKey(sync.week(S.monday).nights[d.n]);
+  S.hist = null;
+  paintDeal();
+}
+function dealUndo() {
+  const d = S.deal; if (!d || d.picked === null) return;
+  if (dealStale()) return;
+  if (!d.before) wrote(sync.mark(S.monday, d.n, 'e'));
+  else {
+    const rec = { st: d.before.st };
+    for (const k of ['m', 's0', 's1']) if (d.before[k]) rec[k] = d.before[k];
+    wrote(sync.setNight(S.monday, d.n, rec));
+  }
+  d.picked = null; d.expect = dealKey(sync.week(S.monday).nights[d.n]);
+  S.hist = null;
+  paintDeal();
+}
+function dealMark(st) {
+  const d = S.deal; if (!d) return;
+  if (dealStale()) return;
+  wrote(sync.mark(S.monday, d.n, st));
+  leaveDeal();
+}
+function dealCard(c, i, picked) {
+  const main = item(c.m), sides = [c.s0, c.s1].map((id) => dispName(item(id)));
+  const icon = { both: IC.both, lastHad: IC.clock, new: IC.spark, notYet: IC.ring }[c.reason.kind] || IC.ring;
+  const state = picked === null ? '' : (picked === i ? ' pick' : ' dim');
+  return `<button class="tk${state}" data-act="deal-pick" data-i="${i}"${picked !== null ? ' aria-disabled="true"' : ''}>
+    <span class="idx"><b>${c.minutes}</b><i>min</i></span>
+    <span class="bd"><span class="why">${icon}${esc(c.reason.text)}</span><span class="nm">${esc(dispName(main))}</span>
+    <span class="sd"><span>${esc(sides[0])}</span><span>${esc(sides[1])}</span></span></span><span class="okb">${IC.checkB}</span></button>`;
+}
+function dealBodyHTML() {
+  const d = S.deal, cards = d.res.cards, k = cards.length, picked = d.picked;
+  const quiet = (list) => `<div class="ql${list.length === 2 ? ' two' : ''}">${list.map(([act, t]) => `<button data-act="${act}">${t}</button>`).join('')}</div>`;
+  const eatAway = [['deal-o', 'Eat out'], ['deal-a', 'Jason away']];
+  if (k === 0) {
+    return `<div class="nohero"><b>0</b><span>dinners fit<br>${DAYS_FULL[d.n]}</span></div>
+      <div class="ghost"><p>Every dinner is on another night<br>or takes over 30 min.</p></div>
+      <div class="qa"><button class="btn p" data-act="deal-self">Pick it myself</button>${quiet(eatAway)}</div>`;
+  }
+  const cardsHTML = `<div class="deal">${cards.map((c, i) => dealCard(c, i, picked)).join('')}</div>`;
+  if (picked !== null) {
+    const nm = dispName(item(cards[picked].m));
+    return `${cardsHTML}<div class="dset"><span class="ck">${IC.checkB}</span><div class="t"><b>${DAYS_FULL[d.n]} is set</b><span>${esc(nm)}</span></div><button data-act="deal-undo">Undo</button></div>`;
+  }
+  if (k < 3) return `${cardsHTML}<div class="qa"><button class="btn o" data-act="deal-self">Pick it myself</button>${quiet(eatAway)}</div>`;
+  const more = d.res.candidates > k ? `<button class="btn o" data-act="deal-more">${IC.deckS}Deal three more</button>` : '';
+  return `${cardsHTML}<div class="qa">${more}${quiet([['deal-self', 'Pick it myself'], ...eatAway])}</div>`;
+}
+function paintDeal() {
+  const d = S.deal; if (!d || !sync) return;
+  const view = sync.week(S.monday);
+  const night = view.nights[d.n];
+  // the night itself changed (the other phone, or this phone's write lost): back to the Week, where its row flashes
+  if (dealKey(night) !== d.expect) { leaveDeal(); return; }
+  // a card's main is now another night's dinner: a fresh hand, the same "shown"
+  if (d.picked === null) {
+    const used = new Set(view.nights.filter((x, i) => i !== d.n && isHomeN(x)).map((x) => x.m));
+    if (d.res.cards.some((c) => used.has(c.m))) d.res = dealHand(d.shown);
+  }
+  paintPill();
+  const k = d.res.cards.length;
+  const hint = d.picked !== null ? 'Picked' : (k >= 3 ? 'Tap a card to pick it' : (k === 2 ? 'Only two fit' : (k === 1 ? 'Only one fits' : 'Nothing fits')));
+  const html = hint + '|' + dealBodyHTML();
+  if (html === S.dealHTML) return;
+  S.dealHTML = html;
+  $('#hint').textContent = hint;
+  $('#dealbody').innerHTML = html.slice(hint.length + 1);
+}
 // ---------- save, push, share ----------
 function weekLines(view) {
   const lines = [];
@@ -3108,6 +3541,7 @@ async function save() {
   S.push = { state: 'sending', note: S.notKept ? 'This phone couldn’t store the week, so it is only kept until you close the page.' : '' };
   const celebrate = shouldCelebrate(view0, S.celebrated); // the first save of a full week plays the confetti, once per week per phone
   if (celebrate) { S.celebrated[view0.monday] = true; kv.set(V2 + 'celebrated', S.celebrated); }
+  if (S.dealtMon === mon) { S.dealtMon = null; S.dealOps = {}; S.dealResult = null; S.rows = []; paint(); } // saving ends the dealt state: the swap arrows go
   showMoment('saved', celebrate);
   let res;
   try { res = await sync.save(mon, pageAddress()); } catch (e) { res = { link: weekLink(pageAddress(), toV1Week(view0)), message: saveMessage(S.settings.me, false), updated: false }; }
@@ -3155,8 +3589,8 @@ async function copyLink() {
 }
 
 // ---------- the plum moment (saved, or a full week) ----------
-const CONF = [['#EDE8DE', 30, 96, '50%'], ['#FAF9F6', 78, 150, '2px'], ['#944B8C', 326, 100, '2px'], ['#1E1A16', 350, 176, '50%'], ['#EDE8DE', 36, 90, '2px'],
-  ['#944B8C', 340, 300, '2px'], ['#1E1A16', 22, 260, '50%'], ['#FAF9F6', 296, 84, '2px'], ['#944B8C', 118, 92, '2px'], ['#1E1A16', 236, 110, '50%'], ['#944B8C', 362, 230, '2px']];
+const CONF = [['#FFF', 30, 96, '50%'], ['#5B2E56', 78, 150, '2px'], ['#944B8C', 326, 100, '2px'], ['#1E1A16', 350, 176, '50%'], ['#FFF', 36, 90, '2px'],
+  ['#944B8C', 340, 300, '2px'], ['#1E1A16', 22, 260, '50%'], ['#5B2E56', 296, 84, '2px'], ['#944B8C', 118, 92, '2px'], ['#1E1A16', 236, 110, '50%'], ['#944B8C', 362, 230, '2px']];
 function showMoment(kind, conf) {
   S.moment = { kind, conf: kind === 'full' || !!conf };
   const el = $('#moment');
@@ -3176,14 +3610,12 @@ function renderMoment(play) {
   const view = sync.week(S.monday);
   const homes = view.nights.map((n, i) => ({ n, i })).filter((x) => isHomeN(x.n));
   const kind = S.moment.kind, p = S.push || {};
-  const cards = homes.slice(0, 4);
-  const xs = [[-76, -17], [-26, -6], [26, 6], [76, 17]];
+  const cards = homes.slice(0, 5);
   const k = cards.length;
   const fan = cards.map((c, idx) => {
-    const slot = k === 4 ? idx : Math.min(3, idx + (4 - k));
-    const [x, r] = xs[slot];
+    const r = Math.round((idx - (k - 1) / 2) * 14);
     const last = idx === k - 1;
-    return `<div class="c fanc" style="--i:${idx};--r:${r}deg;--x:${x}px;transform:translateX(${x}px) rotate(${r}deg)"><div class="d">${DAYS[c.i]}</div>${last ? `<div class="nm">${esc(dispName(item(c.n.m)))}</div>${av(c.n.by)}` : ''}</div>`;
+    return `<div class="fc fanc${last ? ' fro' : ''}" style="--i:${idx};--r:${r}deg;transform:rotate(${r}deg);z-index:${idx + 1}"><div class="d">${DAYS[c.i]}</div><div class="nm">${esc(dispName(item(c.n.m)))}</div>${av(c.n.by)}</div>`;
   }).join('');
   const conf = S.moment.conf && !reduced()
     ? CONF.map((c, i) => `<i class="conf fall" style="--i:${i};--r:${(i * 37) % 70 - 35}deg;left:${c[1]}px;top:${c[2]}px;width:${i % 2 ? 9 : 11}px;height:${i % 2 ? 15 : 11}px;background:${c[0]};border-radius:${c[3]}"></i>`).join('') : '';
@@ -3204,7 +3636,7 @@ function renderMoment(play) {
     done = '<button class="qlink" data-act="close">Done</button>';
   }
   const warn = p.note && p.state !== 'sending' ? `<div class="mnote bad" id="momentNote">${esc(p.note)}</div>` : '<div class="mnote" id="momentNote" role="status" aria-live="polite"></div>';
-  el.className = 'moment' + (play && !reduced() ? ' play' : '');
+  el.className = 'moment' + (actions ? ' acts' : '') + (play && !reduced() ? ' play' : '');
   el.innerHTML = `<div class="panel">${conf}<div class="fan">${fan}</div></div>
     <div class="center"><div class="hd">${title}</div><div class="sub">${sub}</div></div>
     <div class="tally"><span>${av('J')}${byJ} ${byJ === 1 ? 'night' : 'nights'}</span><span>${av('L')}${byL} ${byL === 1 ? 'night' : 'nights'}</span></div>
@@ -3374,7 +3806,7 @@ function storeListHTML(d) {
   let h = `<div class="top"><div class="brand">${brandMark()}<span>${esc(APP_NAME)}</span></div>${right}</div>`;
   h += S.notKept ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Save and send before you close this.</span></div></div>` : '';
   h += S.listLost ? `<div class="warn" role="alert">${IC.alertL}<div><b>Not kept on this phone</b><span>Your check marks will be gone when you close this.</span></div></div>` : '';
-  h += `<div class="trow"><h1>Store list</h1><button class="swp" data-act="view-week">${IC.weekI}Week</button></div>`;
+  h += '<div class="trow"><h1>Store list</h1></div>';
   h += `<div class="pills" role="group" aria-label="Week"><button data-act="tab" data-which="this" aria-pressed="${S.which === 'this'}">This week</button><button data-act="tab" data-which="coming" aria-pressed="${S.which === 'coming'}">Next week</button></div>`;
   if (!S.online || !S.dataIn) h += '<div class="lnote" role="status"><i></i>Showing what this phone has.</div>';
   const chips = view.offered.length ? `<p class="dayslbl">Shopping for</p><div class="days" role="group" aria-label="Shopping for">${view.offered.map((n) => {
@@ -3409,6 +3841,7 @@ function paintList() {
 function setView(v) {
   if (S.view === v || !builderOn) return;
   closeAll(true);
+  S.deal = null;
   S.view = v;
   mountBuilder($('#app'));
   window.scrollTo(0, 0);
@@ -3434,6 +3867,7 @@ async function runFixture(steps) {
       else if (s.fn === 'mark') who.mark(...s.a);
       else if (s.fn === 'presence') await who.setPresence(!!s.on);
       else if (s.fn === 'deal') await who.deal(s.a[0], MEALS, { seed: s.seed || 3 });
+      else if (s.fn === 'save') await who.save(s.a[0], pageAddress());
       await who.idle();
       await fxServer.settle();
     } else if (s.net) {
@@ -3455,6 +3889,7 @@ async function afterMount() {
     else if (s.ui === 'menu') openMenu(s.n);
     else if (s.ui === 'sheet') openFlow(s.n, s.step || 0);
     else if (s.ui === 'deal') await doDeal(false);
+    else if (s.dealt !== undefined) { S.dealtMon = S.monday; S.dealOps[s.dealt] = sync.week(S.monday).nights[s.dealt].op; S.rows = []; paint(); } // fixture: this night counts as dealt (shows its swap arrow)
     else if (s.ui === 'save') { await save(); }
     else if (s.ui === 'full') { showMoment('full'); }
     else if (s.event) onEvent(s.event);
@@ -3484,9 +3919,17 @@ document.addEventListener('click', (e) => {
   } else if (sheetOpen() || S.menu !== null || S.moment) return;
   switch (act) {
     case 'tab': S.which = el.dataset.which; S.hist = null; S.rows = []; S.dealtMon = null; S.dealOps = {}; S.listHTML = null; paint(); window.scrollTo(0, 0); break;
-    case 'night': openMenu(Number(el.dataset.day)); break;
+    case 'night': { const n = Number(el.dataset.day); if (isEmptyNight(sync.week(S.monday).nights[n])) openDeal(n); else openMenu(n); break; }
     case 'menu-close': closeMenu(); break;
+    case 'menu-deal': { const n = S.menu; closeMenu(true); openDeal(n); break; }
     case 'menu-home': { const n = S.menu; closeMenu(true); openFlow(n, firstStep(n)); break; }
+    case 'deal-back': backToWeek(); break;
+    case 'deal-pick': dealPick(Number(el.dataset.i)); break;
+    case 'deal-more': dealMore(); break;
+    case 'deal-undo': dealUndo(); break;
+    case 'deal-self': { const n = S.deal.n; leaveDeal(null, () => openFlow(n, 0)); break; }
+    case 'deal-o': dealMark('o'); break;
+    case 'deal-a': dealMark('a'); break;
     case 'menu-o': menuSet('o'); break;
     case 'menu-a': menuSet('a'); break;
     case 'menu-clear': menuClear(); break;
@@ -3500,9 +3943,7 @@ document.addEventListener('click', (e) => {
     case 'clear': clearPick(); break;
     case 'skip': skip(); break;
     case 'deal': doDeal(false); break;
-    case 'deal-again': doDeal(true); break;
-    case 'keep': keepDeal(); break;
-    case 'swap': swapNight(Number(el.dataset.day)); break;
+    case 'swap': openDeal(Number(el.dataset.day)); break;
     case 'save': save(); break;
     case 'again': retryPush(); break;
     case 'share': share(); break;
@@ -3523,7 +3964,7 @@ document.addEventListener('click', (e) => {
       const y = window.scrollY; renderList($('#app'), S.list.hash); window.scrollTo(0, y); break;
     }
     case 'view-list': setView('list'); break;
-    case 'view-week': setView('week'); break;
+    case 'view-week': if (S.view === 'deal') backToWeek(); else setView('week'); break;
     case 'line': listChange(({ state, week }) => toggleLine(state, week, MEALS, el.dataset.key)); break;
     case 'chip': listChange(({ state, week, view }) => { const n = Number(el.dataset.n); return view.changed.includes(n) ? ackNight(state, week, n) : setChosen(state, week, n, !state.chosen.includes(n)); }); break;
     case 'dismiss': if (!S.dataIn) break; listChange(({ state }) => dismissNotNeeded(state, el.dataset.key, Number(el.dataset.n))); break;
